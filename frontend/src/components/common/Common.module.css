@@ -1,0 +1,187 @@
+.spinnerWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--neutral-200);
+  border-top-color: var(--primary-600);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.spinnerText {
+  font-size: 14px;
+  color: var(--neutral-500);
+}
+
+.pageLoader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--neutral-50);
+  z-index: 999;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+  gap: 12px;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.emptyTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--neutral-700);
+  font-family: var(--font-display);
+}
+
+.emptyDesc {
+  font-size: 14px;
+  color: var(--neutral-400);
+  max-width: 320px;
+  line-height: 1.6;
+}
+
+.emptyAction { margin-top: 8px; }
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.paginationInfo {
+  font-size: 13px;
+  color: var(--neutral-500);
+}
+
+.paginationBtns {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pageBtn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neutral-200);
+  background: var(--white);
+  color: var(--neutral-700);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-body);
+}
+
+.pageBtn:hover:not(:disabled) {
+  border-color: var(--primary-500);
+  color: var(--primary-700);
+  background: var(--primary-50);
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.activePage {
+  background: var(--primary-700) !important;
+  color: white !important;
+  border-color: var(--primary-700) !important;
+}
+
+.ellipsis {
+  font-size: 13px;
+  color: var(--neutral-400);
+  padding: 0 4px;
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge_primary { background: var(--primary-100); color: var(--primary-800); }
+.badge_success { background: var(--success-100); color: var(--success-600); }
+.badge_warning { background: var(--gold-100); color: var(--gold-600); }
+.badge_error { background: var(--error-100); color: var(--error-600); }
+.badge_neutral { background: var(--neutral-100); color: var(--neutral-700); }
+
+/* Score bar */
+.scoreBar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.scoreBarTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scoreBarLabel {
+  font-size: 13px;
+  color: var(--neutral-600);
+  font-weight: 500;
+}
+
+.scoreBarValue {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.scoreBarTrack {
+  height: 7px;
+  background: var(--neutral-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.scoreBarFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Stars */
+.stars { display: flex; gap: 2px; }
+.stars_sm .star { font-size: 14px; }
+.stars_md .star { font-size: 17px; }
+.stars_lg .star { font-size: 22px; }
+
+.star { color: var(--neutral-300); }
+.starFilled { color: var(--gold-400); }

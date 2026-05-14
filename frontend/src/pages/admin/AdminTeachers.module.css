@@ -1,0 +1,164 @@
+.page { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1.5px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color var(--transition-fast);
+  background: var(--white);
+}
+
+.searchInput:focus { border-color: var(--primary-500); }
+
+.filterSelect {
+  padding: 10px 14px;
+  border: 1.5px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: var(--font-body);
+  outline: none;
+  background: var(--white);
+  cursor: pointer;
+  min-width: 160px;
+}
+
+.statsChips { display: flex; gap: 8px; }
+
+.chip {
+  background: var(--neutral-100);
+  color: var(--neutral-600);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+}
+
+.chip strong { color: var(--primary-700); }
+
+.tableWrap {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--neutral-500);
+  background: var(--neutral-50);
+  border-bottom: 1px solid var(--neutral-200);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--neutral-100);
+  color: var(--neutral-700);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td { border-bottom: none; }
+
+.table tbody tr:hover td { background: var(--neutral-50); }
+
+.teacherCell { display: flex; align-items: center; gap: 12px; }
+.teacherName { display: block; font-weight: 600; font-size: 13px; color: var(--neutral-900); }
+.teacherEmail { display: block; font-size: 12px; color: var(--neutral-400); }
+.teacherEid { display: block; font-size: 11px; color: var(--neutral-400); font-family: var(--font-mono); }
+.dept { font-size: 13px; color: var(--neutral-700); }
+.desig { font-size: 13px; font-weight: 500; color: var(--neutral-700); }
+.exp { font-size: 13px; color: var(--neutral-600); }
+
+.scoreCell { display: flex; align-items: center; gap: 6px; }
+.scoreVal { font-weight: 700; font-size: 14px; font-family: var(--font-mono); color: var(--primary-700); }
+.scoreGrade { font-weight: 700; font-size: 13px; }
+
+.actions { display: flex; gap: 8px; }
+
+.editBtn {
+  padding: 5px 12px;
+  background: var(--primary-50);
+  color: var(--primary-700);
+  border: 1px solid var(--primary-200, #bfdbfe);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--transition-fast);
+}
+
+.editBtn:hover { background: var(--primary-100); }
+
+.deleteBtn {
+  padding: 5px 12px;
+  background: var(--error-100);
+  color: var(--error-600);
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--transition-fast);
+}
+
+.deleteBtn:hover { background: #fee2e2; }
+
+/* Form */
+.form { display: flex; flex-direction: column; gap: 16px; }
+.formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.formGroup { display: flex; flex-direction: column; gap: 6px; }
+.label { font-size: 12px; font-weight: 600; color: var(--neutral-700); text-transform: uppercase; letter-spacing: 0.04em; }
+.error { font-size: 12px; color: var(--error-600); }
+.formActions { display: flex; justify-content: flex-end; gap: 12px; padding-top: 8px; border-top: 1px solid var(--neutral-100); margin-top: 8px; }
+
+/* Delete confirm */
+.deleteConfirm { text-align: center; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+.deleteIcon { font-size: 48px; }
+.deleteText { font-size: 15px; color: var(--neutral-600); line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .formGrid { grid-template-columns: 1fr; }
+  .toolbar { flex-direction: column; align-items: stretch; }
+  .table { font-size: 12px; }
+  .table th, .table td { padding: 10px 12px; }
+}

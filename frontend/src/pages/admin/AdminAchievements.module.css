@@ -1,0 +1,96 @@
+.page { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.header { display: flex; align-items: center; gap: 12px; }
+
+.headerInfo { display: flex; align-items: center; gap: 10px; }
+
+.pendingCount {
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--primary-800);
+}
+
+.pendingLabel { font-size: 15px; color: var(--neutral-500); }
+
+.achievementsList { display: flex; flex-direction: column; gap: 12px; }
+
+.achievementCard {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.04);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  animation: fadeInUp 0.4s ease both;
+  transition: box-shadow var(--transition-base);
+}
+
+.achievementCard:hover { box-shadow: var(--shadow-md); }
+
+.catIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.achievementInfo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+
+.achievementTop { display: flex; align-items: flex-start; gap: 10px; justify-content: space-between; }
+
+.achievementTitle { font-size: 15px; font-weight: 700; color: var(--neutral-900); font-family: var(--font-display); flex: 1; }
+
+.catBadge {
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.achievementDesc { font-size: 13px; color: var(--neutral-500); line-height: 1.5; }
+
+.achievementMeta { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.achievementMeta span { font-size: 12px; color: var(--neutral-400); }
+
+.certLink { font-size: 12px; color: var(--primary-600); text-decoration: none; font-weight: 500; }
+.certLink:hover { text-decoration: underline; }
+
+.teacherInfo { display: flex; align-items: center; gap: 10px; padding-top: 4px; }
+
+.teacherName { display: block; font-size: 13px; font-weight: 600; color: var(--neutral-800); }
+.teacherDept { display: block; font-size: 11px; color: var(--neutral-400); }
+
+.achievementActions { flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+
+.verifyBtn {
+  padding: 8px 20px;
+  background: var(--success-600);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.verifyBtn:hover:not(:disabled) { background: #15803d; transform: translateY(-1px); }
+.verifyBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+@media (max-width: 600px) {
+  .achievementCard { flex-direction: column; }
+  .achievementActions { width: 100%; }
+  .verifyBtn { width: 100%; }
+}

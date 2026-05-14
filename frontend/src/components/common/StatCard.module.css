@@ -1,0 +1,67 @@
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  animation: fadeInUp 0.5s ease both;
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.iconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 22px;
+}
+
+.change {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.change.positive {
+  background: var(--success-100);
+  color: var(--success-600);
+}
+
+.change.negative {
+  background: var(--error-100);
+  color: var(--error-600);
+}
+
+.value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--neutral-900);
+  line-height: 1.1;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--neutral-500);
+  font-weight: 500;
+}

@@ -1,0 +1,120 @@
+/* TeacherFeedback.module.css */
+.page { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: var(--space-4);
+}
+
+.summaryCard {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.04);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: fadeInUp 0.4s ease both;
+}
+
+.summaryIcon { font-size: 28px; flex-shrink: 0; }
+.summaryInfo { flex: 1; }
+.summaryVal { display: block; font-size: 1.5rem; font-weight: 800; font-family: var(--font-display); color: var(--neutral-900); }
+.summaryLabel { font-size: 12px; color: var(--neutral-400); text-transform: uppercase; letter-spacing: 0.04em; }
+
+.filters { display: flex; gap: 12px; }
+
+.filterSelect {
+  padding: 9px 14px;
+  border: 1.5px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-family: var(--font-body);
+  outline: none;
+  background: var(--white);
+  cursor: pointer;
+}
+
+.filterSelect:focus { border-color: var(--primary-500); }
+
+.feedbackGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
+
+.feedbackCard {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeInUp 0.4s ease both;
+  transition: box-shadow var(--transition-base);
+}
+
+.feedbackCard:hover { box-shadow: var(--shadow-md); }
+
+.feedbackCardTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+
+.feedbackMeta { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.feedbackRatingMain { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+.ratingNum { font-size: 13px; font-weight: 700; color: var(--gold-600); }
+
+.ratingBreakdown { display: flex; flex-direction: column; gap: 6px; }
+
+.ratingItem { display: flex; align-items: center; gap: 8px; }
+
+.ratingItemLabel { font-size: 11px; color: var(--neutral-500); width: 120px; text-transform: capitalize; }
+
+.ratingItemBar {
+  flex: 1;
+  height: 5px;
+  background: var(--neutral-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.ratingItemBar div {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.8s ease;
+}
+
+.ratingItemVal { font-size: 11px; font-weight: 600; color: var(--neutral-600); width: 28px; text-align: right; }
+
+.feedbackComment {
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  position: relative;
+}
+
+.commentQuote {
+  font-size: 2rem;
+  color: var(--neutral-300);
+  line-height: 0.5;
+  font-family: Georgia, serif;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.feedbackComment p { font-size: 13px; color: var(--neutral-600); line-height: 1.6; font-style: italic; }
+
+.feedbackFooter {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--neutral-400);
+  border-top: 1px solid var(--neutral-100);
+  padding-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .summaryGrid { grid-template-columns: 1fr 1fr; }
+  .summaryGrid > *:last-child { grid-column: 1 / -1; }
+  .feedbackGrid { grid-template-columns: 1fr; }
+}

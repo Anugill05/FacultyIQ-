@@ -1,0 +1,97 @@
+.page { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: var(--white);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.summaryItem { display: flex; align-items: center; gap: 14px; }
+
+.summaryIcon { font-size: 28px; }
+
+.summaryVal { display: block; font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--neutral-900); line-height: 1; }
+
+.summaryLabel { font-size: 12px; color: var(--neutral-400); text-transform: uppercase; letter-spacing: 0.04em; }
+
+.summaryRow .btn { margin-left: auto; }
+
+.feedbacksList { display: flex; flex-direction: column; gap: 12px; }
+
+.feedbackCard {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.04);
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  animation: fadeInUp 0.4s ease both;
+  transition: box-shadow var(--transition-base);
+}
+
+.feedbackCard:hover { box-shadow: var(--shadow-md); }
+
+.feedbackLeft { display: flex; align-items: center; gap: 14px; flex-shrink: 0; min-width: 200px; }
+
+.teacherInfo { display: flex; flex-direction: column; gap: 2px; }
+
+.teacherName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--neutral-900);
+  text-decoration: none;
+  font-family: var(--font-display);
+}
+
+.teacherName:hover { color: var(--primary-700); text-decoration: underline; }
+
+.teacherDept { font-size: 12px; color: var(--neutral-500); }
+.teacherDesig { font-size: 11px; color: var(--neutral-400); }
+
+.feedbackMiddle { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+
+.feedbackMeta { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.feedbackComment {
+  font-size: 13px;
+  color: var(--neutral-600);
+  font-style: italic;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.ratingsRow { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.ratingTag {
+  font-size: 11px;
+  color: var(--neutral-500);
+  background: var(--neutral-100);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  text-transform: capitalize;
+}
+
+.ratingTag strong { color: var(--primary-700); }
+
+.feedbackRight { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+
+.overallRating { display: flex; align-items: center; gap: 6px; }
+
+.ratingNum { font-size: 14px; font-weight: 800; color: var(--gold-600); font-family: var(--font-mono); }
+
+.feedbackDate { font-size: 12px; color: var(--neutral-400); white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .feedbackCard { flex-direction: column; }
+  .feedbackLeft { min-width: unset; }
+  .feedbackRight { align-items: flex-start; }
+  .summaryRow .btn { margin-left: 0; width: 100%; justify-content: center; }
+}

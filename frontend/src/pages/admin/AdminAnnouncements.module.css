@@ -1,0 +1,89 @@
+/* AdminAnnouncements.module.css */
+.page { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.totalBadge {
+  background: var(--primary-100);
+  color: var(--primary-800);
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.announcementsList { display: flex; flex-direction: column; gap: 12px; }
+
+.announcementCard {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.04);
+  border-left: 4px solid;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  animation: fadeInUp 0.4s ease both;
+  transition: box-shadow var(--transition-base);
+}
+
+.announcementCard:hover { box-shadow: var(--shadow-md); }
+
+.announcementLeft { display: flex; align-items: flex-start; gap: 16px; flex: 1; min-width: 0; }
+
+.announcementIcon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+
+.announcementContent { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+
+.announcementMeta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.announcementType {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.announcementTarget { font-size: 12px; color: var(--neutral-400); }
+
+.announcementExpiry { font-size: 11px; color: var(--neutral-400); }
+
+.announcementTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--neutral-900);
+  font-family: var(--font-display);
+}
+
+.announcementBody { font-size: 14px; color: var(--neutral-600); line-height: 1.6; }
+
+.announcementDate { font-size: 12px; color: var(--neutral-400); }
+
+.deleteBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--neutral-100);
+  color: var(--neutral-400);
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  font-family: var(--font-body);
+}
+
+.deleteBtn:hover { background: var(--error-100); color: var(--error-600); }
