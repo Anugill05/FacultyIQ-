@@ -146,7 +146,7 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 1; $i <= 20; $i++) {
             $students[] = User::create([
-                'name' => fake()->name(),
+                'name' => fake()->firstName() . ' ' . fake()->lastName(),
                 'email' => "student{$i}@lpu.in",
                 'password' => Hash::make('Student@123'),
                 'role' => 'student',
