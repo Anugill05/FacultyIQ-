@@ -13,6 +13,9 @@
   z-index: 100;
   padding: 20px 0;
   transition: all var(--transition-base);
+
+  background: rgba(255, 255, 255, 0.95); /* ADD THIS */
+  backdrop-filter: blur(12px);           /* optional but nice */
 }
 
 .navScrolled {
