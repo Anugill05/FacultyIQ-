@@ -424,7 +424,7 @@ Overall Score = (Student Rating × 30%) +
 
 ## 📝 License
 
-MIT License — Lovely Professional University, 2024
+MIT License — Lovely Professional University, 2026
 
 ---
 

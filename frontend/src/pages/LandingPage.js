@@ -3,82 +3,34 @@ import { Link } from 'react-router-dom';
 import styles from './LandingPage.module.css';
 
 const stats = [
-  { value: '2,400+', label: 'Faculty Members' },
-  { value: '98%', label: 'Satisfaction Rate' },
-  { value: '340+', label: 'Workshops Conducted' },
-  { value: '15K+', label: 'Student Reviews' },
+  { value: '2400', label: 'Faculty Members', suffix: '+' },
+  { value: '98', label: 'Satisfaction Rate', suffix: '%' },
+  { value: '340', label: 'Workshops Conducted', suffix: '+' },
+  { value: '15000', label: 'Student Reviews', suffix: '+' },
 ];
 
 const features = [
-  {
-    icon: '📊',
-    title: 'Performance Analytics',
-    desc: 'Real-time performance scores computed from student feedback, attendance, achievements, and workshop participation.',
-    color: '#1e3a8a',
-  },
-  {
-    icon: '🎯',
-    title: 'Capacity Building',
-    desc: 'Curated workshops, training programs, and professional development sessions aligned with academic excellence.',
-    color: '#ea580c',
-  },
-  {
-    icon: '🏆',
-    title: 'Recognition & Badges',
-    desc: 'Automated badges and motivation tracking to celebrate faculty milestones and achievements.',
-    color: '#d97706',
-  },
-  {
-    icon: '💬',
-    title: 'Student Feedback',
-    desc: 'Structured multi-dimensional feedback system giving faculty actionable insights for continuous improvement.',
-    color: '#16a34a',
-  },
-  {
-    icon: '📈',
-    title: 'Growth Tracking',
-    desc: 'Longitudinal performance tracking across semesters to visualize professional growth over time.',
-    color: '#7c3aed',
-  },
-  {
-    icon: '🎓',
-    title: 'Achievement Portfolio',
-    desc: 'Digital portfolio for publications, patents, certifications, and awards with verified credentials.',
-    color: '#0e7490',
-  },
+  { title: 'Performance Analytics', desc: 'Real-time performance scores computed from student feedback, attendance, achievements, and workshop participation.', accent: '#1e3a8a', tag: '01' },
+  { title: 'Capacity Building', desc: 'Curated workshops, training programs, and professional development sessions aligned with academic excellence.', accent: '#ea580c', tag: '02' },
+  { title: 'Recognition & Badges', desc: 'Automated badges and motivation tracking to celebrate faculty milestones and achievements.', accent: '#d97706', tag: '03' },
+  { title: 'Student Feedback', desc: 'Structured multi-dimensional feedback system giving faculty actionable insights for continuous improvement.', accent: '#16a34a', tag: '04' },
+  { title: 'Growth Tracking', desc: 'Longitudinal performance tracking across semesters to visualize professional growth over time.', accent: '#7c3aed', tag: '05' },
+  { title: 'Achievement Portfolio', desc: 'Digital portfolio for publications, patents, certifications, and awards with verified credentials.', accent: '#0e7490', tag: '06' },
 ];
 
 const testimonials = [
-  {
-    name: 'Dr. Priya Sharma',
-    role: 'Assistant Professor, CSE',
-    text: 'FacultyUp has completely transformed how I track my professional growth. The performance dashboard gives me clear insights into areas where I can improve my teaching.',
-    rating: 5,
-    initial: 'P',
-  },
-  {
-    name: 'Prof. Amit Verma',
-    role: 'Associate Professor, CSE',
-    text: 'The workshop recommendation system is brilliant. I have participated in 6 workshops this year and my performance score jumped from 78 to 91. Highly recommended!',
-    rating: 5,
-    initial: 'A',
-  },
-  {
-    name: 'Rahul Mehta',
-    role: 'Student, B.Tech CSE',
-    text: 'Finally a platform where my feedback actually matters! I can see how my reviews help teachers improve, and finding the best professors in my department is so easy now.',
-    rating: 5,
-    initial: 'R',
-  },
+  { name: 'Dr. Priya Sharma', role: 'Assistant Professor, CSE', text: 'FacultyUp has completely transformed how I track my professional growth. The performance dashboard gives me clear insights into areas where I can improve my teaching.', rating: 5, initial: 'P' },
+  { name: 'Prof. Amit Verma', role: 'Associate Professor, CSE', text: 'The workshop recommendation system is brilliant. I have participated in 6 workshops this year and my performance score jumped from 78 to 91. Highly recommended!', rating: 5, initial: 'A' },
+  { name: 'Rahul Mehta', role: 'Student, B.Tech CSE', text: 'Finally a platform where my feedback actually matters. I can see how my reviews help teachers improve, and finding the best professors in my department is so easy now.', rating: 5, initial: 'R' },
 ];
 
-function CountUp({ target, duration = 2000, suffix = '' }) {
+function CountUp({ target, suffix = '', duration = 2000 }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const animated = useRef(false);
+  const num = parseInt(target);
 
   useEffect(() => {
-    const num = parseInt(target.replace(/\D/g, ''));
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && !animated.current) {
         animated.current = true;
@@ -95,17 +47,10 @@ function CountUp({ target, duration = 2000, suffix = '' }) {
     }, { threshold: 0.5 });
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [target, duration]);
+  }, [num, duration]);
 
-  const prefix = target.replace(/[\d,+%]/g, '').split('').filter(c => isNaN(c) && c !== '+').join('');
-  const hasSuffix = target.includes('+');
-  const hasPercent = target.includes('%');
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}{hasPercent ? '%' : ''}{hasSuffix ? '+' : ''}
-    </span>
-  );
+  const display = num >= 1000 ? Math.floor(count / 1000) + 'K' : count;
+  return <span ref={ref}>{display}{suffix}</span>;
 }
 
 export default function LandingPage() {
@@ -120,134 +65,81 @@ export default function LandingPage() {
 
   return (
     <div className={styles.page}>
-      {/* NAV */}
+
+      {/* ── NAV ── */}
       <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`}>
         <div className={styles.navInner}>
           <div className={styles.navLogo}>
-            <span className={styles.navLogoIcon}>🎓</span>
+            <div className={styles.navLogoMark}>F</div>
             <span className={styles.navLogoText}>FacultyUp</span>
           </div>
           <div className={`${styles.navLinks} ${menuOpen ? styles.navLinksOpen : ''}`}>
             <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
             <a href="#stats" onClick={() => setMenuOpen(false)}>Impact</a>
             <a href="#testimonials" onClick={() => setMenuOpen(false)}>Testimonials</a>
-            <Link to="/login" className={styles.navLoginBtn} onClick={() => setMenuOpen(false)}>
-              Login
-            </Link>
-            <Link to="/register" className={styles.navRegisterBtn} onClick={() => setMenuOpen(false)}>
-              Get Started
-            </Link>
+            <Link to="/login" className={styles.navLoginBtn} onClick={() => setMenuOpen(false)}>Login</Link>
+            <Link to="/register" className={styles.navRegisterBtn} onClick={() => setMenuOpen(false)}>Get Started</Link>
           </div>
-          <button className={styles.burger} onClick={() => setMenuOpen(!menuOpen)}>
-            <span className={menuOpen ? styles.burgerOpen : ''} />
-            <span className={menuOpen ? styles.burgerOpen : ''} />
-            <span className={menuOpen ? styles.burgerOpen : ''} />
+          <button className={styles.burger} onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </nav>
 
-      {/* HERO */}
+      {/* ── HERO ── */}
       <section className={styles.hero}>
-        <div className={styles.heroBg}>
-          <div className={styles.heroBgGrad} />
-          <div className={styles.heroBgPattern} />
-        </div>
-        <div className={styles.heroContent}>
-          <div className={styles.heroBadge}>
-            <span>🏛️</span> Lovely Professional University
-          </div>
-          <h1 className={styles.heroTitle}>
-            Empowering Faculty
-            <span className={styles.heroTitleAccent}> Excellence</span>
-            <br />at Every Step
-          </h1>
-          <p className={styles.heroDesc}>
-            A comprehensive platform for capacity building, performance assessment, and motivation-driven growth for LPU faculty. Track, improve, and celebrate academic excellence.
-          </p>
-          <div className={styles.heroCta}>
-            <Link to="/register" className={styles.heroCtaPrimary}>
-              Start Your Journey →
-            </Link>
-            <Link to="/login" className={styles.heroCtaSecondary}>
-              Sign In
-            </Link>
-          </div>
-          <div className={styles.heroCredentials}>
-            <span>Demo credentials:</span>
-            <code>admin@lpu.in / Admin@123</code>
-            <code>priya.sharma@lpu.in / Teacher@123</code>
-            <code>student1@lpu.in / Student@123</code>
-          </div>
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroCard}>
-            <div className={styles.heroCardHeader}>
-              <span>📊</span>
-              <span>Performance Overview</span>
+        <div className={styles.heroBgImage} />
+        <div className={styles.heroBgOverlay} />
+
+        <div className={styles.heroInner}>
+
+          {/* Left — text content */}
+          <div className={styles.heroContent}>
+            <div className={styles.heroBadge}>
+              <span className={styles.heroBadgeDot} />
+              Lovely Professional University
             </div>
-            <div className={styles.heroScoreCircle}>
-              <svg viewBox="0 0 120 120" className={styles.heroScoreSvg}>
-                <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="10" />
-                <circle cx="60" cy="60" r="52" fill="none" stroke="white" strokeWidth="10"
-                  strokeDasharray="327" strokeDashoffset="49" strokeLinecap="round"
-                  transform="rotate(-90 60 60)" style={{ transition: 'stroke-dashoffset 2s ease' }} />
-              </svg>
-              <div className={styles.heroScoreText}>
-                <strong>87%</strong>
-                <small>Overall</small>
-              </div>
-            </div>
-            <div className={styles.heroMetrics}>
-              {[
-                { label: 'Teaching', val: 90, color: '#22c55e' },
-                { label: 'Research', val: 80, color: '#3b82f6' },
-                { label: 'Engagement', val: 88, color: '#f59e0b' },
-              ].map(m => (
-                <div key={m.label} className={styles.heroMetric}>
-                  <span>{m.label}</span>
-                  <div className={styles.heroMetricBar}>
-                    <div style={{ width: `${m.val}%`, background: m.color }} />
-                  </div>
-                  <span style={{ color: m.color }}>{m.val}%</span>
-                </div>
-              ))}
+            <h1 className={styles.heroTitle}>
+              Empowering Faculty
+              <br />
+              <span className={styles.heroTitleAccent}>Excellence</span>
+              <br />
+              at Every Step
+            </h1>
+            <p className={styles.heroDesc}>
+              A comprehensive platform for capacity building, performance assessment, and motivation-driven growth for LPU faculty. Track, improve, and celebrate academic excellence.
+            </p>
+            <div className={styles.heroCta}>
+              <Link to="/register" className={styles.heroCtaPrimary}>
+                Start Your Journey &rarr;
+              </Link>
+              <Link to="/login" className={styles.heroCtaSecondary}>
+                Sign In
+              </Link>
             </div>
           </div>
-          <div className={styles.heroFloatCard} style={{ top: '-20px', right: '-16px' }}>
-            <span>⭐</span>
-            <div>
-              <strong>Star Performer</strong>
-              <small>This Semester</small>
-            </div>
           </div>
-          <div className={styles.heroFloatCard} style={{ bottom: '20px', left: '-16px' }}>
-            <span>🎯</span>
-            <div>
-              <strong>6 / 8 Goals</strong>
-              <small>On Track</small>
-            </div>
-          </div>
-        </div>
       </section>
 
-      {/* STATS */}
+      {/* ── STATS ── */}
       <section id="stats" className={styles.statsSection}>
-        <div className={styles.statsGrid}>
+        <div className={styles.statsInner}>
           {stats.map((s, i) => (
-            <div key={i} className={styles.statItem} style={{ animationDelay: `${i * 0.1}s` }}>
-              <div className={styles.statValue}>
-                <CountUp target={s.value} />
-              </div>
+            <div key={i} className={styles.statItem}>
+              <div className={styles.statValue}><CountUp target={s.value} suffix={s.suffix} /></div>
+              <div className={styles.statDivider} />
               <div className={styles.statLabel}>{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* FEATURES */}
+      {/* ── FEATURES ── */}
       <section id="features" className={styles.featuresSection}>
         <div className={styles.sectionHeader}>
-          <div className={styles.sectionBadge}>Platform Capabilities</div>
+          <div className={styles.sectionTag}>Platform Capabilities</div>
           <h2 className={styles.sectionTitle}>Everything You Need for Faculty Growth</h2>
           <p className={styles.sectionDesc}>
             A unified platform built specifically for LPU's academic excellence framework, combining data-driven insights with human-centered development.
@@ -255,34 +147,31 @@ export default function LandingPage() {
         </div>
         <div className={styles.featuresGrid}>
           {features.map((f, i) => (
-            <div key={i} className={styles.featureCard} style={{ animationDelay: `${i * 0.1}s` }}>
-              <div className={styles.featureIcon} style={{ background: `${f.color}15`, color: f.color }}>
-                {f.icon}
-              </div>
+            <div key={i} className={styles.featureCard} style={{ animationDelay: `${i * 0.08}s` }}>
+              <div className={styles.featureTagNum} style={{ color: f.accent }}>{f.tag}</div>
+              <div className={styles.featureTitleBar} style={{ background: f.accent }} />
               <h3 className={styles.featureTitle}>{f.title}</h3>
               <p className={styles.featureDesc}>{f.desc}</p>
-              <div className={styles.featureLine} style={{ background: f.color }} />
             </div>
           ))}
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* ── HOW IT WORKS ── */}
       <section className={styles.howSection}>
         <div className={styles.sectionHeader}>
-          <div className={styles.sectionBadge}>Process</div>
+          <div className={styles.sectionTag}>Process</div>
           <h2 className={styles.sectionTitle}>How FacultyUp Works</h2>
         </div>
-        <div className={styles.stepsGrid}>
+        <div className={styles.stepsRow}>
           {[
-            { step: '01', title: 'Sign Up & Verify', desc: 'Secure email OTP verification for all users — admin, faculty, and students.', icon: '✉️' },
-            { step: '02', title: 'Build Your Profile', desc: 'Upload achievements, certificates, and participate in workshops to grow your portfolio.', icon: '👤' },
-            { step: '03', title: 'Collect Feedback', desc: 'Students submit structured multi-dimensional feedback for every faculty member.', icon: '💬' },
-            { step: '04', title: 'Track & Improve', desc: 'View real-time performance scores, earn badges, and receive personalized growth recommendations.', icon: '📈' },
+            { step: '01', title: 'Sign Up & Verify', desc: 'Secure email OTP verification for all users — admin, faculty, and students.' },
+            { step: '02', title: 'Build Your Profile', desc: 'Upload achievements, certificates, and participate in workshops to grow your portfolio.' },
+            { step: '03', title: 'Collect Feedback', desc: 'Students submit structured multi-dimensional feedback for every faculty member.' },
+            { step: '04', title: 'Track & Improve', desc: 'View real-time performance scores, earn badges, and receive personalized growth recommendations.' },
           ].map((s, i) => (
             <div key={i} className={styles.stepCard}>
-              <div className={styles.stepNumber}>{s.step}</div>
-              <div className={styles.stepIcon}>{s.icon}</div>
+              <div className={styles.stepNum}>{s.step}</div>
               <h3 className={styles.stepTitle}>{s.title}</h3>
               <p className={styles.stepDesc}>{s.desc}</p>
             </div>
@@ -290,52 +179,57 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* ── TESTIMONIALS ── */}
       <section id="testimonials" className={styles.testimonialsSection}>
-        <div className={styles.sectionHeader}>
-          <div className={styles.sectionBadge}>Testimonials</div>
-          <h2 className={styles.sectionTitle}>Loved by Faculty & Students</h2>
-        </div>
-        <div className={styles.testimonialsGrid}>
-          {testimonials.map((t, i) => (
-            <div key={i} className={styles.testimonialCard} style={{ animationDelay: `${i * 0.12}s` }}>
-              <div className={styles.testimonialStars}>
-                {'★'.repeat(t.rating)}
-              </div>
-              <p className={styles.testimonialText}>"{t.text}"</p>
-              <div className={styles.testimonialAuthor}>
-                <div className={styles.testimonialAvatar}>{t.initial}</div>
-                <div>
-                  <strong>{t.name}</strong>
-                  <span>{t.role}</span>
+        <div className={styles.testimonialsBgImage} />
+        <div className={styles.testimonialsOverlay} />
+        <div className={styles.testimonialsInner}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionTagLight}>Testimonials</div>
+            <h2 className={styles.sectionTitleLight}>Loved by Faculty & Students</h2>
+          </div>
+          <div className={styles.testimonialsGrid}>
+            {testimonials.map((t, i) => (
+              <div key={i} className={styles.testimonialCard} style={{ animationDelay: `${i * 0.12}s` }}>
+                <div className={styles.testimonialRating}>{'★'.repeat(t.rating)}</div>
+                <p className={styles.testimonialText}>"{t.text}"</p>
+                <div className={styles.testimonialAuthor}>
+                  <div className={styles.testimonialAvatar}>{t.initial}</div>
+                  <div>
+                    <strong className={styles.testimonialName}>{t.name}</strong>
+                    <span className={styles.testimonialRole}>{t.role}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* CTA BANNER */}
+      {/* ── CTA BANNER ── */}
       <section className={styles.ctaBanner}>
         <div className={styles.ctaBannerContent}>
+          <div className={styles.sectionTagLight} style={{ marginBottom: '18px', display: 'inline-block' }}>Join Today</div>
           <h2 className={styles.ctaBannerTitle}>Ready to Transform Faculty Development?</h2>
-          <p className={styles.ctaBannerDesc}>Join thousands of LPU faculty members already using FacultyUp to track and accelerate their professional growth.</p>
+          <p className={styles.ctaBannerDesc}>
+            Join thousands of LPU faculty members already using FacultyUp to track and accelerate their professional growth.
+          </p>
           <div className={styles.ctaBannerBtns}>
-            <Link to="/register" className={styles.ctaBannerPrimary}>Create Account →</Link>
+            <Link to="/register" className={styles.ctaBannerPrimary}>Create Account &rarr;</Link>
             <Link to="/login" className={styles.ctaBannerSecondary}>Login</Link>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* ── FOOTER ── */}
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
           <div className={styles.footerBrand}>
             <div className={styles.footerLogo}>
-              <span>🎓</span>
-              <strong>FacultyUp</strong>
+              <div className={styles.footerLogoMark}>F</div>
+              <strong className={styles.footerLogoText}>FacultyUp</strong>
             </div>
-            <p className={styles.footerTagline}>Capacity Building, Performance Assessment & Motivation Driven Tool for Faculty Upgradation</p>
+            <p className={styles.footerTagline}>Capacity Building, Performance Assessment &amp; Motivation Driven Tool for Faculty Upgradation</p>
             <p className={styles.footerUniv}>Lovely Professional University, Phagwara, Punjab</p>
           </div>
           <div className={styles.footerLinks}>
@@ -360,8 +254,8 @@ export default function LandingPage() {
           </div>
         </div>
         <div className={styles.footerBottom}>
-          <p>© 2024 FacultyUp — Lovely Professional University. All rights reserved.</p>
-          <p>Built with ❤️ for academic excellence</p>
+          <p>© 2026 FacultyUp — Lovely Professional University. All rights reserved.</p>
+          <p>Built with care for academic excellence</p>
         </div>
       </footer>
     </div>
