@@ -122,7 +122,6 @@ export default function AdminTeachers() {
   return (
     <DashboardLayout title="Faculty Management" subtitle="Create, manage and monitor all faculty accounts">
       <div className={styles.page}>
-        {/* Toolbar */}
         <div className={styles.toolbar}>
           <div className={styles.searchWrap}>
             <span className={styles.searchIcon}>🔍</span>
@@ -140,12 +139,10 @@ export default function AdminTeachers() {
           <button className="btn btn-primary" onClick={openCreate}>+ Add Faculty</button>
         </div>
 
-        {/* Stats chips */}
         <div className={styles.statsChips}>
           <span className={styles.chip}>Total: <strong>{total}</strong></span>
         </div>
 
-        {/* Table */}
         <div className={styles.tableWrap}>
           {loading ? <LoadingSpinner text="Loading faculty..." /> : teachers.length === 0 ? (
             <EmptyState icon="👩‍🏫" title="No faculty found" description="Add faculty members or adjust your search." />
@@ -182,11 +179,11 @@ export default function AdminTeachers() {
                       {t.performance_score ? (
                         <div className={styles.scoreCell}>
                           <span className={styles.scoreVal}>{t.performance_score.overall_score?.toFixed(1)}%</span>
-                          <span className={styles.scoreGrade} style={{ color: t.performance_score.grade === 'A+' ? '#16a34a' : '#2563eb' }}>
+                          <span className={styles.scoreGrade} style={{ color: t.performance_score.grade === 'A+' ? '#4ade80' : '#818cf8' }}>
                             {t.performance_score.grade}
                           </span>
                         </div>
-                      ) : <span style={{ color: 'var(--neutral-400)', fontSize: 12 }}>Not assessed</span>}
+                      ) : <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 12 }}>Not assessed</span>}
                     </td>
                     <td>
                       <Badge variant={t.is_active ? 'success' : 'error'}>
@@ -215,22 +212,26 @@ export default function AdminTeachers() {
           <div className={styles.formGrid}>
             <div className={styles.formGroup}>
               <label className={styles.label}>Full Name *</label>
-              <input className={`form-input ${errors.name ? 'error' : ''}`} value={form.name} onChange={e => set('name', e.target.value)} placeholder="Dr. Full Name" />
+              <input className={`form-input ${errors.name ? 'error' : ''}`} value={form.name}
+                onChange={e => set('name', e.target.value)} placeholder="Dr. Full Name" />
               {errors.name && <span className={styles.error}>{errors.name}</span>}
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Email Address *</label>
-              <input type="email" className={`form-input ${errors.email ? 'error' : ''}`} value={form.email} onChange={e => set('email', e.target.value)} placeholder="name@lpu.in" disabled={!!editId} />
+              <input type="email" className={`form-input ${errors.email ? 'error' : ''}`} value={form.email}
+                onChange={e => set('email', e.target.value)} placeholder="name@lpu.in" disabled={!!editId} />
               {errors.email && <span className={styles.error}>{errors.email}</span>}
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Employee ID *</label>
-              <input className={`form-input ${errors.employee_id ? 'error' : ''}`} value={form.employee_id} onChange={e => set('employee_id', e.target.value)} placeholder="CSE001" />
+              <input className={`form-input ${errors.employee_id ? 'error' : ''}`} value={form.employee_id}
+                onChange={e => set('employee_id', e.target.value)} placeholder="CSE001" />
               {errors.employee_id && <span className={styles.error}>{errors.employee_id}</span>}
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Department *</label>
-              <select className={`form-input ${errors.department ? 'error' : ''}`} value={form.department} onChange={e => set('department', e.target.value)}>
+              <select className={`form-input ${errors.department ? 'error' : ''}`} value={form.department}
+                onChange={e => set('department', e.target.value)}>
                 <option value="">Select Department</option>
                 {departments.map(d => <option key={d} value={d}>{d}</option>)}
               </select>
@@ -238,7 +239,8 @@ export default function AdminTeachers() {
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Designation *</label>
-              <select className={`form-input ${errors.designation ? 'error' : ''}`} value={form.designation} onChange={e => set('designation', e.target.value)}>
+              <select className={`form-input ${errors.designation ? 'error' : ''}`} value={form.designation}
+                onChange={e => set('designation', e.target.value)}>
                 <option value="">Select Designation</option>
                 {['Assistant Professor', 'Associate Professor', 'Professor', 'Senior Professor', 'HOD', 'Dean'].map(d => (
                   <option key={d} value={d}>{d}</option>
@@ -248,26 +250,33 @@ export default function AdminTeachers() {
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Qualification *</label>
-              <input className={`form-input ${errors.qualification ? 'error' : ''}`} value={form.qualification} onChange={e => set('qualification', e.target.value)} placeholder="Ph.D. in Computer Science" />
+              <input className={`form-input ${errors.qualification ? 'error' : ''}`} value={form.qualification}
+                onChange={e => set('qualification', e.target.value)} placeholder="Ph.D. in Computer Science" />
               {errors.qualification && <span className={styles.error}>{errors.qualification}</span>}
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Specialization</label>
-              <input className="form-input" value={form.specialization} onChange={e => set('specialization', e.target.value)} placeholder="Machine Learning, AI..." />
+              <input className="form-input" value={form.specialization}
+                onChange={e => set('specialization', e.target.value)} placeholder="Machine Learning, AI..." />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Experience (Years) *</label>
-              <input type="number" min="0" max="50" className={`form-input ${errors.experience_years ? 'error' : ''}`} value={form.experience_years} onChange={e => set('experience_years', e.target.value)} placeholder="8" />
+              <input type="number" min="0" max="50"
+                className={`form-input ${errors.experience_years ? 'error' : ''}`}
+                value={form.experience_years} onChange={e => set('experience_years', e.target.value)} placeholder="8" />
               {errors.experience_years && <span className={styles.error}>{errors.experience_years}</span>}
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Phone</label>
-              <input className="form-input" value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+91 98765 43210" />
+              <input className="form-input" value={form.phone}
+                onChange={e => set('phone', e.target.value)} placeholder="+91 98765 43210" />
             </div>
           </div>
           <div className={styles.formGroup} style={{ marginTop: 8 }}>
             <label className={styles.label}>Bio / About</label>
-            <textarea className="form-input form-textarea" value={form.bio} onChange={e => set('bio', e.target.value)} placeholder="Brief description about the faculty member..." rows={3} />
+            <textarea className="form-input form-textarea" value={form.bio}
+              onChange={e => set('bio', e.target.value)}
+              placeholder="Brief description about the faculty member..." rows={3} />
           </div>
           <div className={styles.formActions}>
             <button type="button" className="btn btn-ghost" onClick={createModal.close}>Cancel</button>

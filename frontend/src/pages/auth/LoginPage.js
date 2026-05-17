@@ -66,7 +66,7 @@ export default function LoginPage() {
     try {
       const result = await login(form.email, form.password);
       if (result.success) {
-        toast.success(`Welcome back, ${result.user.name.split(' ')[0]}!`);
+        toast.success(`Welcome back, ${result.user.name.replace(/^Dr\.\s*/i, '').split(' ')[0]}!`);
         const map = { admin: '/admin/dashboard', teacher: '/teacher/dashboard', student: '/student/dashboard' };
         navigate(map[result.user.role] || '/');
       }

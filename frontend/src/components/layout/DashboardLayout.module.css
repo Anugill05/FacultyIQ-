@@ -1,12 +1,13 @@
 .layout {
   display: flex;
   min-height: 100vh;
-  background: var(--neutral-50);
+  background: #0f1117;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .main {
   flex: 1;
-  margin-left: var(--sidebar-width);
+  margin-left: var(--sidebar-width, 240px);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -15,7 +16,7 @@
 
 .content {
   flex: 1;
-  padding: var(--space-8);
+  padding: 32px;
   max-width: 1400px;
   width: 100%;
 }
@@ -26,6 +27,6 @@
   }
 
   .content {
-    padding: var(--space-5) var(--space-4) var(--space-16);
+    padding: 24px 16px 80px;
   }
 }

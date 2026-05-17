@@ -1,132 +1,217 @@
-.page { display: flex; flex-direction: column; gap: var(--space-5); }
-
-.heroCard {
-  background: linear-gradient(135deg, var(--primary-900) 0%, #1e3a8a 100%);
-  border-radius: var(--radius-xl);
-  padding: 32px;
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 40px;
-  animation: fadeInUp 0.4s ease;
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.heroLeft { display: flex; flex-direction: column; gap: 12px; }
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: #0f1117;
+  min-height: 100%;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── HERO ────────────────────────────────────────────── */
+
+.heroCard {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+  border-radius: 16px;
+  padding: 36px;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 40px;
+  border: 1px solid rgba(99,102,241,0.2);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(99,102,241,0.1);
+  animation: fadeInUp 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroCard::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
 
 .heroLabel {
-  font-size: 12px;
-  color: rgba(255,255,255,0.45);
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-weight: 700;
 }
 
 .heroScore {
+  font-family: 'Sora', sans-serif;
   font-size: 4rem;
   font-weight: 900;
-  font-family: var(--font-display);
   line-height: 1;
-  letter-spacing: -2px;
+  letter-spacing: -3px;
 }
 
-.heroMeta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.heroMeta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
 
 .grade {
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
+  padding: 4px 14px;
+  border-radius: 100px;
   font-size: 13px;
   font-weight: 800;
-  font-family: var(--font-mono);
+  font-family: 'Sora', sans-serif;
 }
 
 .badge {
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
+  padding: 4px 14px;
+  border-radius: 100px;
   font-size: 12px;
   font-weight: 600;
 }
 
 .heroMeta2 {
   font-size: 13px;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.38);
 }
 
 .calcDate {
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.25);
   margin-top: auto;
 }
 
-.heroRight {}
+.heroRight { position: relative; z-index: 1; }
 
 .componentScores {
-  background: rgba(255,255,255,0.07);
-  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
   padding: 20px;
   border: 1px solid rgba(255,255,255,0.1);
+  height: 100%;
 }
 
 .componentTitle {
-  font-size: 13px;
+  font-family: 'Sora', sans-serif;
+  font-size: 12px;
   font-weight: 700;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.55);
   margin-bottom: 14px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .componentWeights {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
   margin-bottom: 16px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .weight {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  color: rgba(255,255,255,0.5);
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.42);
 }
 
 .weight span:last-child {
   font-weight: 700;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.65);
+  font-family: 'Sora', sans-serif;
 }
+
+/* ── CHARTS ──────────────────────────────────────────── */
 
 .chartsRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-5);
+  gap: 16px;
 }
 
 .chartCard {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(0,0,0,0.04);
+  background: #1a1f2e;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06);
   animation: fadeInUp 0.5s ease both;
+  transition: border-color 0.3s ease;
 }
+
+.chartCard:hover { border-color: rgba(99,102,241,0.18); }
 
 .chartTitle {
+  font-family: 'Sora', sans-serif;
   font-size: 15px;
   font-weight: 700;
-  color: var(--neutral-800);
-  margin-bottom: 16px;
+  color: #e2e8f0;
+  margin-bottom: 20px;
+  letter-spacing: -0.2px;
 }
 
+/* ── HISTORY TABLE ───────────────────────────────────── */
+
 .historyCard {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(0,0,0,0.04);
+  background: #1a1f2e;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06);
   animation: fadeInUp 0.5s ease both;
 }
 
 .historyTable { overflow-x: auto; }
+
+.historyTable table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.historyTable th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  white-space: nowrap;
+}
+
+.historyTable td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.65);
+  white-space: nowrap;
+}
+
+.historyTable tr:last-child td { border-bottom: none; }
+
+.historyTable tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
 
 @media (max-width: 900px) {
   .heroCard { grid-template-columns: 1fr; }

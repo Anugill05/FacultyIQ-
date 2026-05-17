@@ -5,7 +5,10 @@ export default function StatCard({ icon, label, value, change, changeType = 'pos
   return (
     <div className={styles.card} style={{ animationDelay: `${delay}s` }}>
       <div className={styles.top}>
-        <div className={styles.iconWrap} style={{ background: iconBg || 'var(--primary-100)' }}>
+        <div
+          className={styles.iconWrap}
+          style={{ background: iconBg || 'rgba(99, 102, 241, 0.12)', border: '1px solid rgba(99, 102, 241, 0.18)' }}
+        >
           <span className={styles.icon}>{icon}</span>
         </div>
         {change !== undefined && (

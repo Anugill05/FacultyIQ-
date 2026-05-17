@@ -11,7 +11,16 @@ import {
 } from 'recharts';
 import styles from './AdminDashboard.module.css';
 
-const COLORS = ['#1e3a8a', '#2563eb', '#ea580c', '#d97706', '#16a34a', '#7c3aed'];
+const COLORS = ['#6366f1', '#8b5cf6', '#a78bfa', '#818cf8', '#4f46e5', '#7c3aed'];
+
+const tooltipStyle = {
+  borderRadius: '10px',
+  border: '1px solid rgba(99,102,241,0.2)',
+  boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+  fontSize: '13px',
+  background: '#1a1f2e',
+  color: '#e2e8f0',
+};
 
 export default function AdminDashboard() {
   const [data, setData] = useState(null);
@@ -55,10 +64,10 @@ export default function AdminDashboard() {
 
         {/* Stats Grid */}
         <div className={styles.statsGrid}>
-          <StatCard icon="👩‍🏫" label="Total Faculty" value={data?.stats?.total_teachers ?? '—'} iconBg="#dbeafe" delay={0} change="Active" changeType="positive" />
-          <StatCard icon="🎓" label="Total Students" value={data?.stats?.total_students ?? '—'} iconBg="#dcfce7" delay={0.1} />
-          <StatCard icon="🎯" label="Total Workshops" value={data?.stats?.total_workshops ?? '—'} iconBg="#ffedd5" delay={0.2} />
-          <StatCard icon="📊" label="Avg Performance" value={`${data?.stats?.avg_performance ?? 0}%`} iconBg="#ede9fe" delay={0.3} change="This semester" changeType="positive" />
+          <StatCard icon="👩‍🏫" label="Total Faculty" value={data?.stats?.total_teachers ?? '—'} iconBg="rgba(99,102,241,0.15)" delay={0} change="Active" changeType="positive" />
+          <StatCard icon="🎓" label="Total Students" value={data?.stats?.total_students ?? '—'} iconBg="rgba(34,197,94,0.12)" delay={0.1} />
+          <StatCard icon="🎯" label="Total Workshops" value={data?.stats?.total_workshops ?? '—'} iconBg="rgba(251,146,60,0.12)" delay={0.2} />
+          <StatCard icon="📊" label="Avg Performance" value={`${data?.stats?.avg_performance ?? 0}%`} iconBg="rgba(139,92,246,0.12)" delay={0.3} change="This semester" changeType="positive" />
         </div>
 
         {/* Charts Row */}
@@ -72,14 +81,11 @@ export default function AdminDashboard() {
             {deptData.length > 0 ? (
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={deptData} margin={{ top: 8, right: 8, left: -20, bottom: 8 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#94a3b8' }} />
-                  <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: '#94a3b8' }} />
-                  <Tooltip
-                    contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.12)', fontSize: '13px' }}
-                    formatter={(v) => [`${v}%`, 'Avg Score']}
-                  />
-                  <Bar dataKey="score" fill="#1e3a8a" radius={[5, 5, 0, 0]}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.3)' }} />
+                  <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.3)' }} />
+                  <Tooltip contentStyle={tooltipStyle} formatter={(v) => [`${v}%`, 'Avg Score']} />
+                  <Bar dataKey="score" fill="#6366f1" radius={[5, 5, 0, 0]}>
                     {deptData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                   </Bar>
                 </BarChart>
@@ -101,8 +107,8 @@ export default function AdminDashboard() {
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
                     {gradeData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                   </Pie>
-                  <Tooltip formatter={(v) => [v, 'Faculty']} />
-                  <Legend />
+                  <Tooltip formatter={(v) => [v, 'Faculty']} contentStyle={tooltipStyle} />
+                  <Legend wrapperStyle={{ color: 'rgba(255,255,255,0.45)', fontSize: 12 }} />
                 </PieChart>
               </ResponsiveContainer>
             ) : <EmptyState icon="🏆" title="No grades yet" />}
@@ -115,12 +121,12 @@ export default function AdminDashboard() {
             </div>
             <div className={styles.workshopStats}>
               {[
-                { label: 'Upcoming', count: data?.workshop_stats?.upcoming ?? 0, color: '#2563eb', icon: '📅' },
-                { label: 'Ongoing', count: data?.workshop_stats?.ongoing ?? 0, color: '#d97706', icon: '🔄' },
-                { label: 'Completed', count: data?.workshop_stats?.completed ?? 0, color: '#16a34a', icon: '✅' },
+                { label: 'Upcoming', count: data?.workshop_stats?.upcoming ?? 0, color: '#818cf8', icon: '📅' },
+                { label: 'Ongoing',  count: data?.workshop_stats?.ongoing ?? 0,  color: '#fb923c', icon: '🔄' },
+                { label: 'Completed',count: data?.workshop_stats?.completed ?? 0,color: '#4ade80', icon: '✅' },
               ].map(w => (
                 <div key={w.label} className={styles.workshopStatItem}>
-                  <div className={styles.workshopStatIcon} style={{ background: `${w.color}18` }}>
+                  <div className={styles.workshopStatIcon} style={{ background: `${w.color}1a` }}>
                     {w.icon}
                   </div>
                   <div className={styles.workshopStatInfo}>
@@ -130,8 +136,8 @@ export default function AdminDashboard() {
                 </div>
               ))}
             </div>
-            <div style={{ marginTop: 24 }}>
-              <Link to="/admin/workshops" className="btn btn-primary btn-sm" style={{ width: '100%', justifyContent: 'center' }}>
+            <div style={{ marginTop: 20 }}>
+              <Link to="/admin/workshops" className="btn btn-primary btn-sm" style={{ width: '100%', justifyContent: 'center', display: 'flex' }}>
                 Manage Workshops →
               </Link>
             </div>
@@ -143,7 +149,7 @@ export default function AdminDashboard() {
           {/* Top Performers */}
           <div className={styles.sectionCard}>
             <div className={styles.sectionHead}>
-              <h3 className={styles.sectionTitle}>🏆 Top Performers</h3>
+              <h3 className={styles.sectionTitle}>Top Performers</h3>
               <Link to="/admin/performance" className={styles.viewAll}>View All →</Link>
             </div>
             {data?.top_performers?.length > 0 ? (
@@ -175,7 +181,7 @@ export default function AdminDashboard() {
           {/* Recent Feedbacks */}
           <div className={styles.sectionCard}>
             <div className={styles.sectionHead}>
-              <h3 className={styles.sectionTitle}>💬 Recent Feedbacks</h3>
+              <h3 className={styles.sectionTitle}>Recent Feedbacks</h3>
               <Link to="/admin/teachers" className={styles.viewAll}>View All →</Link>
             </div>
             {data?.recent_feedbacks?.length > 0 ? (
@@ -187,9 +193,7 @@ export default function AdminDashboard() {
                       <span className={styles.feedbackRatingNum}>{f.overall_rating}</span>
                     </div>
                     <div className={styles.feedbackMeta}>
-                      <span className={styles.feedbackTeacher}>
-                        {f.teacher?.name || 'Teacher'}
-                      </span>
+                      <span className={styles.feedbackTeacher}>{f.teacher?.name || 'Teacher'}</span>
                       <span className={styles.feedbackComment}>{f.comment || '—'}</span>
                     </div>
                     <span className={styles.feedbackDate}>{formatDate(f.created_at)}</span>

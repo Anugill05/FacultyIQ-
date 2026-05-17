@@ -21,7 +21,7 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
       >
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>
-          <button className={styles.closeBtn} onClick={onClose}>✕</button>
+          <button className={styles.closeBtn} onClick={onClose}>&#x2715;</button>
         </div>
         <div className={styles.body}>{children}</div>
       </div>

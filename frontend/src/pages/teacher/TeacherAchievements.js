@@ -8,17 +8,60 @@ import { useModal } from '../../hooks';
 import toast from 'react-hot-toast';
 import styles from './TeacherAchievements.module.css';
 
-const catIcons = { publication:'📄', award:'🏆', certification:'📜', conference:'🎙️', patent:'💡', project:'🔬' };
-const catColors = {
-  publication: { bg: '#dbeafe', color: '#1e40af' },
-  award: { bg: '#fef3c7', color: '#92400e' },
-  certification: { bg: '#dcfce7', color: '#166534' },
-  conference: { bg: '#ede9fe', color: '#5b21b6' },
-  patent: { bg: '#ffedd5', color: '#9a3412' },
-  project: { bg: '#f0fdf4', color: '#14532d' },
+const catIcons = {
+  publication: '📄',
+  award: '🏆',
+  certification: '📜',
+  conference: '🎙️',
+  patent: '💡',
+  project: '🔬',
 };
 
-const initialForm = { title: '', description: '', category: 'publication', date_achieved: '', issuing_organization: '', certificate: null };
+const catColors = {
+  publication: { bg: 'rgba(59,130,246,0.15)', color: '#93c5fd' },
+  award:       { bg: 'rgba(251,191,36,0.12)',  color: '#fbbf24' },
+  certification: { bg: 'rgba(34,197,94,0.12)', color: '#4ade80' },
+  conference:  { bg: 'rgba(167,139,250,0.12)', color: '#c4b5fd' },
+  patent:      { bg: 'rgba(251,113,133,0.12)', color: '#fca5a5' },
+  project:     { bg: 'rgba(52,211,153,0.12)',  color: '#6ee7b7' },
+};
+
+const initialForm = {
+  title: '',
+  description: '',
+  category: 'publication',
+  date_achieved: '',
+  issuing_organization: '',
+  certificate: null,
+};
+
+const label = {
+  color: 'rgba(255,255,255,0.72)',
+  fontSize: 13,
+  fontWeight: 600,
+  marginBottom: 6,
+  display: 'block',
+  fontFamily: "'DM Sans', sans-serif",
+  letterSpacing: '0.01em',
+};
+
+const darkInput = {
+  background: 'rgba(255,255,255,0.05)',
+  border: '1.5px solid rgba(255,255,255,0.1)',
+  color: '#e2e8f0',
+  borderRadius: 10,
+  width: '100%',
+  padding: '10px 14px',
+  fontSize: 14,
+  fontFamily: "'DM Sans', sans-serif",
+  outline: 'none',
+  transition: 'border-color 0.2s ease',
+  boxSizing: 'border-box',
+};
+
+const darkInputFocus = {
+  borderColor: '#6366f1',
+};
 
 export default function TeacherAchievements() {
   const [achievements, setAchievements] = useState([]);
@@ -37,7 +80,10 @@ export default function TeacherAchievements() {
 
   useEffect(() => { fetchAchievements(); }, []);
 
-  const set = (k, v) => { setForm(p => ({ ...p, [k]: v })); setErrors(p => ({ ...p, [k]: '' })); };
+  const set = (k, v) => {
+    setForm(p => ({ ...p, [k]: v }));
+    setErrors(p => ({ ...p, [k]: '' }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +97,9 @@ export default function TeacherAchievements() {
     setSubmitting(true);
     try {
       const fd = new FormData();
-      Object.entries(form).forEach(([k, v]) => { if (k !== 'certificate' && v) fd.append(k, v); });
+      Object.entries(form).forEach(([k, v]) => {
+        if (k !== 'certificate' && v) fd.append(k, v);
+      });
       if (form.certificate) fd.append('certificate', form.certificate);
       await teacherAPI.uploadAchievement(fd);
       toast.success('Achievement submitted for verification!');
@@ -66,58 +114,106 @@ export default function TeacherAchievements() {
     }
   };
 
-  const totalPoints = achievements.filter(a => a.verified).reduce((sum, a) => sum + (a.points || 0), 0);
+  const totalPoints = achievements
+    .filter(a => a.verified)
+    .reduce((sum, a) => sum + (a.points || 0), 0);
 
   return (
     <DashboardLayout title="My Achievements" subtitle="Upload and manage your professional achievements">
       <div className={styles.page}>
+
+        {/* Toolbar */}
         <div className={styles.toolbar}>
           <div className={styles.statsRow}>
             <div className={styles.statChip}>
-              <span>🏅</span>
-              <strong>{achievements.length}</strong> Total
+              <strong>{achievements.length}</strong>
+              <span>Total</span>
             </div>
             <div className={styles.statChip}>
-              <span>✅</span>
-              <strong>{achievements.filter(a => a.verified).length}</strong> Verified
+              <strong>{achievements.filter(a => a.verified).length}</strong>
+              <span>Verified</span>
             </div>
             <div className={styles.statChip}>
-              <span>⏳</span>
-              <strong>{achievements.filter(a => !a.verified).length}</strong> Pending
+              <strong>{achievements.filter(a => !a.verified).length}</strong>
+              <span>Pending</span>
             </div>
             <div className={styles.statChip}>
-              <span>⭐</span>
-              <strong>{totalPoints}</strong> Points
+              <strong>{totalPoints}</strong>
+              <span>Points</span>
             </div>
           </div>
-          <button className="btn btn-primary" onClick={() => { setForm(initialForm); setErrors({}); uploadModal.open(); }}>
-            + Upload Achievement
+          <button
+            style={{
+              padding: '10px 22px',
+              background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: 10,
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: "'DM Sans', sans-serif",
+              boxShadow: '0 4px 14px rgba(99,102,241,0.35)',
+              transition: 'opacity 0.2s ease, transform 0.2s ease',
+            }}
+            onClick={() => { setForm(initialForm); setErrors({}); uploadModal.open(); }}
+          >
+            Upload Achievement
           </button>
         </div>
 
-        {loading ? <LoadingSpinner text="Loading achievements..." /> : achievements.length === 0 ? (
-          <EmptyState icon="🏅" title="No achievements yet"
+        {/* Content */}
+        {loading ? (
+          <LoadingSpinner text="Loading achievements..." />
+        ) : achievements.length === 0 ? (
+          <EmptyState
+            icon="🏅"
+            title="No achievements yet"
             description="Upload your publications, awards, certifications and more."
-            action={<button className="btn btn-primary" onClick={uploadModal.open}>Upload First Achievement</button>} />
+            action={
+              <button
+                style={{
+                  padding: '10px 22px',
+                  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: 10,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: "'DM Sans', sans-serif",
+                }}
+                onClick={uploadModal.open}
+              >
+                Upload First Achievement
+              </button>
+            }
+          />
         ) : (
           <div className={styles.achievementsGrid}>
             {achievements.map((a, i) => {
-              const cat = catColors[a.category] || { bg: '#f1f5f9', color: '#475569' };
+              const cat = catColors[a.category] || { bg: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.55)' };
               return (
-                <div key={a.id} className={styles.achievementCard} style={{ animationDelay: `${i * 0.05}s` }}>
+                <div
+                  key={a.id}
+                  className={styles.achievementCard}
+                  style={{ animationDelay: `${i * 0.05}s` }}
+                >
                   <div className={styles.cardTop}>
                     <div className={styles.catIcon} style={{ background: cat.bg, color: cat.color }}>
                       {catIcons[a.category] || '🎖'}
                     </div>
                     <Badge variant={a.verified ? 'success' : 'warning'}>
-                      {a.verified ? '✓ Verified' : '⏳ Pending'}
+                      {a.verified ? 'Verified' : 'Pending'}
                     </Badge>
                   </div>
                   <h3 className={styles.achievementTitle}>{a.title}</h3>
-                  <p className={styles.achievementDesc}>{a.description?.slice(0, 100)}{a.description?.length > 100 ? '...' : ''}</p>
+                  <p className={styles.achievementDesc}>
+                    {a.description?.slice(0, 100)}{a.description?.length > 100 ? '...' : ''}
+                  </p>
                   <div className={styles.achievementMeta}>
-                    <span>🏛️ {a.issuing_organization}</span>
-                    <span>📅 {formatDate(a.date_achieved)}</span>
+                    <span>{a.issuing_organization}</span>
+                    <span>{formatDate(a.date_achieved)}</span>
                   </div>
                   <div className={styles.cardFooter}>
                     <span className={styles.catLabel} style={{ background: cat.bg, color: cat.color }}>
@@ -125,8 +221,13 @@ export default function TeacherAchievements() {
                     </span>
                     <span className={styles.pointsLabel}>+{a.points} pts</span>
                     {a.certificate_url && (
-                      <a href={`http://localhost:8000/storage/${a.certificate_url}`} target="_blank" rel="noreferrer" className={styles.certLink}>
-                        📎 View
+                      <a
+                        href={`http://localhost:8000/storage/${a.certificate_url}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={styles.certLink}
+                      >
+                        View Certificate
                       </a>
                     )}
                   </div>
@@ -137,52 +238,174 @@ export default function TeacherAchievements() {
         )}
       </div>
 
-      <Modal isOpen={uploadModal.isOpen} onClose={uploadModal.close} title="Upload Achievement" size="md">
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* Upload Modal */}
+      <Modal
+        isOpen={uploadModal.isOpen}
+        onClose={uploadModal.close}
+        title="Upload Achievement"
+        size="md"
+      >
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: 'flex', flexDirection: 'column', gap: 18 }}
+        >
+          {/* Title */}
           <div>
-            <label className="form-label">Achievement Title *</label>
-            <input className={`form-input ${errors.title ? 'error' : ''}`} value={form.title}
-              onChange={e => set('title', e.target.value)} placeholder="Best Paper Award - IEEE 2024" />
-            {errors.title && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.title}</span>}
+            <label style={label}>Achievement Title *</label>
+            <input
+              style={{
+                ...darkInput,
+                ...(errors.title ? { borderColor: '#f87171' } : {}),
+              }}
+              value={form.title}
+              onChange={e => set('title', e.target.value)}
+              placeholder="Best Paper Award — IEEE 2024"
+            />
+            {errors.title && (
+              <span style={{ fontSize: 12, color: '#f87171', marginTop: 4, display: 'block' }}>
+                {errors.title}
+              </span>
+            )}
           </div>
+
+          {/* Category + Date */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <div>
-              <label className="form-label">Category</label>
-              <select className="form-input" value={form.category} onChange={e => set('category', e.target.value)}>
-                {Object.entries(achievementCategories).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+              <label style={label}>Category</label>
+              <select
+                style={darkInput}
+                value={form.category}
+                onChange={e => set('category', e.target.value)}
+              >
+                {Object.entries(achievementCategories).map(([k, v]) => (
+                  <option key={k} value={k} style={{ background: '#1a1f2e', color: '#e2e8f0' }}>
+                    {v}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
-              <label className="form-label">Date Achieved *</label>
-              <input type="date" className={`form-input ${errors.date_achieved ? 'error' : ''}`}
-                value={form.date_achieved} onChange={e => set('date_achieved', e.target.value)} />
-              {errors.date_achieved && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.date_achieved}</span>}
+              <label style={label}>Date Achieved *</label>
+              <input
+                type="date"
+                style={{
+                  ...darkInput,
+                  colorScheme: 'dark',
+                  ...(errors.date_achieved ? { borderColor: '#f87171' } : {}),
+                }}
+                value={form.date_achieved}
+                onChange={e => set('date_achieved', e.target.value)}
+              />
+              {errors.date_achieved && (
+                <span style={{ fontSize: 12, color: '#f87171', marginTop: 4, display: 'block' }}>
+                  {errors.date_achieved}
+                </span>
+              )}
             </div>
           </div>
+
+          {/* Issuing Organization */}
           <div>
-            <label className="form-label">Issuing Organization *</label>
-            <input className={`form-input ${errors.issuing_organization ? 'error' : ''}`}
-              value={form.issuing_organization} onChange={e => set('issuing_organization', e.target.value)}
-              placeholder="IEEE, Springer, AICTE..." />
-            {errors.issuing_organization && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.issuing_organization}</span>}
+            <label style={label}>Issuing Organization *</label>
+            <input
+              style={{
+                ...darkInput,
+                ...(errors.issuing_organization ? { borderColor: '#f87171' } : {}),
+              }}
+              value={form.issuing_organization}
+              onChange={e => set('issuing_organization', e.target.value)}
+              placeholder="IEEE, Springer, AICTE..."
+            />
+            {errors.issuing_organization && (
+              <span style={{ fontSize: 12, color: '#f87171', marginTop: 4, display: 'block' }}>
+                {errors.issuing_organization}
+              </span>
+            )}
           </div>
+
+          {/* Description */}
           <div>
-            <label className="form-label">Description *</label>
-            <textarea className={`form-input form-textarea ${errors.description ? 'error' : ''}`}
-              value={form.description} onChange={e => set('description', e.target.value)} rows={3}
-              placeholder="Brief description of this achievement..." />
-            {errors.description && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.description}</span>}
+            <label style={label}>Description *</label>
+            <textarea
+              style={{
+                ...darkInput,
+                resize: 'vertical',
+                minHeight: 80,
+                ...(errors.description ? { borderColor: '#f87171' } : {}),
+              }}
+              value={form.description}
+              onChange={e => set('description', e.target.value)}
+              rows={3}
+              placeholder="Brief description of this achievement..."
+            />
+            {errors.description && (
+              <span style={{ fontSize: 12, color: '#f87171', marginTop: 4, display: 'block' }}>
+                {errors.description}
+              </span>
+            )}
           </div>
+
+          {/* Certificate Upload */}
           <div>
-            <label className="form-label">Certificate / Proof (PDF/Image, optional)</label>
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="form-input"
+            <label style={label}>Certificate / Proof (PDF or Image, optional)</label>
+            <input
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+              style={{
+                ...darkInput,
+                padding: '9px 14px',
+                cursor: 'pointer',
+              }}
               onChange={e => set('certificate', e.target.files[0])}
-              style={{ padding: '8px 12px', cursor: 'pointer' }} />
+            />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, borderTop: '1px solid var(--neutral-100)', paddingTop: 12 }}>
-            <button type="button" className="btn btn-ghost" onClick={uploadModal.close}>Cancel</button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? 'Submitting...' : '🏅 Submit for Verification'}
+
+          {/* Actions */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: 12,
+              borderTop: '1px solid rgba(255,255,255,0.07)',
+              paddingTop: 16,
+              marginTop: 4,
+            }}
+          >
+            <button
+              type="button"
+              onClick={uploadModal.close}
+              style={{
+                padding: '9px 20px',
+                background: 'rgba(255,255,255,0.06)',
+                color: 'rgba(255,255,255,0.7)',
+                border: '1.5px solid rgba(255,255,255,0.12)',
+                borderRadius: 9,
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submitting}
+              style={{
+                padding: '9px 22px',
+                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: 9,
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: submitting ? 'not-allowed' : 'pointer',
+                fontFamily: "'DM Sans', sans-serif",
+                opacity: submitting ? 0.65 : 1,
+                boxShadow: '0 4px 14px rgba(99,102,241,0.35)',
+              }}
+            >
+              {submitting ? 'Submitting...' : 'Submit for Verification'}
             </button>
           </div>
         </form>

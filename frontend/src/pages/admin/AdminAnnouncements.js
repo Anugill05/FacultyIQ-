@@ -10,6 +10,25 @@ import styles from './AdminAnnouncements.module.css';
 
 const initialForm = { title: '', content: '', type: 'info', target_role: 'all', expires_at: '' };
 
+const darkLabel = {
+  fontSize: 11,
+  fontWeight: 700,
+  color: 'rgba(255,255,255,0.6)',
+  textTransform: 'uppercase',
+  letterSpacing: '0.08em',
+  marginBottom: 4,
+  display: 'block',
+  fontFamily: "'DM Sans', sans-serif",
+};
+
+const darkInput = {
+  background: 'rgba(255,255,255,0.05)',
+  border: '1.5px solid rgba(255,255,255,0.1)',
+  borderRadius: 9,
+  color: '#e2e8f0',
+  fontFamily: "'DM Sans', sans-serif",
+};
+
 export default function AdminAnnouncements() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -105,45 +124,46 @@ export default function AdminAnnouncements() {
       <Modal isOpen={createModal.isOpen} onClose={createModal.close} title="Post New Announcement" size="md">
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
-            <label className="form-label">Title *</label>
-            <input className={`form-input ${errors.title ? 'error' : ''}`} value={form.title}
+            <label style={darkLabel}>Title *</label>
+            <input className={`form-input ${errors.title ? 'error' : ''}`} style={darkInput} value={form.title}
               onChange={e => set('title', e.target.value)} placeholder="Announcement title..." />
-            {errors.title && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.title}</span>}
+            {errors.title && <span style={{ fontSize: 12, color: '#f87171', marginTop: 4, display: 'block' }}>{errors.title}</span>}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <div>
-              <label className="form-label">Type</label>
-              <select className="form-input" value={form.type} onChange={e => set('type', e.target.value)}>
-                <option value="info">ℹ️ Info</option>
-                <option value="success">✅ Success</option>
-                <option value="warning">⚠️ Warning</option>
-                <option value="urgent">🚨 Urgent</option>
+              <label style={darkLabel}>Type</label>
+              <select className="form-input" style={darkInput} value={form.type} onChange={e => set('type', e.target.value)}>
+                <option value="info">Info</option>
+                <option value="success">Success</option>
+                <option value="warning">Warning</option>
+                <option value="urgent">Urgent</option>
               </select>
             </div>
             <div>
-              <label className="form-label">Target Audience</label>
-              <select className="form-input" value={form.target_role} onChange={e => set('target_role', e.target.value)}>
-                <option value="all">👥 Everyone</option>
-                <option value="teacher">👩‍🏫 Faculty Only</option>
-                <option value="student">🎓 Students Only</option>
+              <label style={darkLabel}>Target Audience</label>
+              <select className="form-input" style={darkInput} value={form.target_role} onChange={e => set('target_role', e.target.value)}>
+                <option value="all">Everyone</option>
+                <option value="teacher">Faculty Only</option>
+                <option value="student">Students Only</option>
               </select>
             </div>
           </div>
           <div>
-            <label className="form-label">Content *</label>
-            <textarea className={`form-input form-textarea ${errors.content ? 'error' : ''}`} value={form.content}
-              onChange={e => set('content', e.target.value)} placeholder="Write your announcement..." rows={4} />
-            {errors.content && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.content}</span>}
+            <label style={darkLabel}>Content *</label>
+            <textarea className={`form-input form-textarea ${errors.content ? 'error' : ''}`} style={darkInput}
+              value={form.content} onChange={e => set('content', e.target.value)}
+              placeholder="Write your announcement..." rows={4} />
+            {errors.content && <span style={{ fontSize: 12, color: '#f87171', marginTop: 4, display: 'block' }}>{errors.content}</span>}
           </div>
           <div>
-            <label className="form-label">Expiry Date (Optional)</label>
-            <input type="datetime-local" className="form-input" value={form.expires_at}
+            <label style={darkLabel}>Expiry Date (Optional)</label>
+            <input type="datetime-local" className="form-input" style={darkInput} value={form.expires_at}
               onChange={e => set('expires_at', e.target.value)} />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, borderTop: '1px solid var(--neutral-100)', paddingTop: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 14 }}>
             <button type="button" className="btn btn-ghost" onClick={createModal.close}>Cancel</button>
             <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? 'Posting...' : '📢 Post Announcement'}
+              {submitting ? 'Posting...' : 'Post Announcement'}
             </button>
           </div>
         </form>
@@ -151,8 +171,9 @@ export default function AdminAnnouncements() {
 
       <Modal isOpen={deleteModal.isOpen} onClose={deleteModal.close} title="Delete Announcement" size="sm">
         <div style={{ textAlign: 'center', padding: '8px 0' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🗑️</div>
-          <p style={{ color: 'var(--neutral-600)', marginBottom: 24 }}>Delete <strong>"{deleteModal.data?.title}"</strong>?</p>
+          <p style={{ color: 'rgba(255,255,255,0.5)', marginBottom: 24, fontSize: 15, lineHeight: 1.6 }}>
+            Delete <strong style={{ color: '#e2e8f0' }}>"{deleteModal.data?.title}"</strong>?
+          </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
             <button className="btn btn-ghost" onClick={deleteModal.close}>Cancel</button>
             <button className="btn btn-danger" onClick={handleDelete}>Delete</button>

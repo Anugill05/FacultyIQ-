@@ -7,7 +7,16 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import toast from 'react-hot-toast';
 import styles from './AdminPerformance.module.css';
 
-const COLORS = ['#1e3a8a','#2563eb','#ea580c','#d97706','#16a34a','#7c3aed'];
+const COLORS = ['#6366f1', '#8b5cf6', '#a78bfa', '#818cf8', '#4f46e5', '#7c3aed'];
+
+const tooltipStyle = {
+  borderRadius: '10px',
+  border: '1px solid rgba(99,102,241,0.2)',
+  boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+  fontSize: '13px',
+  background: '#1a1f2e',
+  color: '#e2e8f0',
+};
 
 export default function AdminPerformance() {
   const [scores, setScores] = useState([]);
@@ -78,7 +87,7 @@ export default function AdminPerformance() {
             </select>
           </div>
           <button className="btn btn-primary" onClick={handleGenerate} disabled={generating}>
-            {generating ? '⟳ Calculating...' : '⚡ Generate Report'}
+            {generating ? 'Calculating...' : 'Generate Report'}
           </button>
         </div>
 
@@ -88,11 +97,10 @@ export default function AdminPerformance() {
             <h3 className={styles.chartTitle}>Top Faculty Performance Scores</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={chartData} margin={{ top: 8, right: 8, left: -20, bottom: 8 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#94a3b8' }} />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: '#94a3b8' }} />
-                <Tooltip formatter={v => [`${v}%`, 'Score']}
-                  contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <XAxis dataKey="name" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.3)' }} />
+                <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.3)' }} />
+                <Tooltip formatter={v => [`${v}%`, 'Score']} contentStyle={tooltipStyle} />
                 <Bar dataKey="score" radius={[5, 5, 0, 0]}>
                   {chartData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                 </Bar>
@@ -125,15 +133,15 @@ export default function AdminPerformance() {
                   const badgeInfo = getBadgeInfo(s.badge);
                   return (
                     <tr key={s.id}>
-                      <td style={{ color: 'var(--neutral-400)', fontFamily: 'var(--font-mono)', fontSize: 12 }}>
+                      <td style={{ color: 'rgba(255,255,255,0.25)', fontFamily: "'Sora', sans-serif", fontSize: 12 }}>
                         {(page - 1) * 10 + i + 1}
                       </td>
                       <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <Avatar name={s.teacher?.name} src={s.teacher?.avatar} size="sm" />
                           <div>
-                            <div style={{ fontWeight: 600, fontSize: 13 }}>{s.teacher?.name}</div>
-                            <div style={{ fontSize: 11, color: 'var(--neutral-400)' }}>{s.teacher?.department}</div>
+                            <div style={{ fontWeight: 600, fontSize: 13, color: '#e2e8f0', fontFamily: "'Sora', sans-serif" }}>{s.teacher?.name}</div>
+                            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{s.teacher?.department}</div>
                           </div>
                         </div>
                       </td>
@@ -156,12 +164,12 @@ export default function AdminPerformance() {
                         </div>
                       </td>
                       <td>
-                        <span className={styles.grade} style={{ color: getGradeColor(s.grade), background: `${getGradeColor(s.grade)}18` }}>
+                        <span className={styles.grade} style={{ color: getGradeColor(s.grade), background: `${getGradeColor(s.grade)}1a` }}>
                           {s.grade}
                         </span>
                       </td>
                       <td>
-                        <span className={styles.badge} style={{ background: badgeInfo.bg, color: badgeInfo.color }}>
+                        <span className={styles.badge} style={{ background: badgeInfo.bg, color: badgeInfo.color, opacity: 0.9 }}>
                           {badgeInfo.icon} {badgeInfo.label}
                         </span>
                       </td>

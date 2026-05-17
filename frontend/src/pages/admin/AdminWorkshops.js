@@ -18,6 +18,27 @@ const initialForm = {
 const modeColors = { online: 'primary', offline: 'success', hybrid: 'warning' };
 const statusColors = { upcoming: 'primary', ongoing: 'warning', completed: 'success', cancelled: 'error' };
 
+const darkLabel = {
+  fontSize: 11,
+  fontWeight: 700,
+  color: 'rgba(255,255,255,0.6)',
+  textTransform: 'uppercase',
+  letterSpacing: '0.08em',
+  marginBottom: 5,
+  display: 'block',
+  fontFamily: "'DM Sans', sans-serif",
+};
+
+const darkInput = {
+  background: 'rgba(255,255,255,0.05)',
+  border: '1.5px solid rgba(255,255,255,0.1)',
+  borderRadius: 9,
+  color: '#e2e8f0',
+  fontFamily: "'DM Sans', sans-serif",
+};
+
+const darkError = { fontSize: 12, color: '#f87171', marginTop: 4, display: 'block' };
+
 export default function AdminWorkshops() {
   const [workshops, setWorkshops] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -153,74 +174,90 @@ export default function AdminWorkshops() {
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
             <div style={{ gridColumn: '1 / -1' }}>
-              <label className="form-label">Workshop Title *</label>
-              <input className={`form-input ${errors.title ? 'error' : ''}`} value={form.title} onChange={e => set('title', e.target.value)} placeholder="Advanced Pedagogy Workshop" />
-              {errors.title && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.title}</span>}
+              <label style={darkLabel}>Workshop Title *</label>
+              <input className={`form-input ${errors.title ? 'error' : ''}`} style={darkInput}
+                value={form.title} onChange={e => set('title', e.target.value)} placeholder="Advanced Pedagogy Workshop" />
+              {errors.title && <span style={darkError}>{errors.title}</span>}
             </div>
             <div>
-              <label className="form-label">Category</label>
-              <select className="form-input" value={form.category} onChange={e => set('category', e.target.value)}>
+              <label style={darkLabel}>Category</label>
+              <select className="form-input" style={darkInput} value={form.category} onChange={e => set('category', e.target.value)}>
                 {Object.entries(workshopCategories).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
             </div>
             <div>
-              <label className="form-label">Mode</label>
-              <select className="form-input" value={form.mode} onChange={e => set('mode', e.target.value)}>
+              <label style={darkLabel}>Mode</label>
+              <select className="form-input" style={darkInput} value={form.mode} onChange={e => set('mode', e.target.value)}>
                 {['online', 'offline', 'hybrid'].map(m => <option key={m} value={m}>{m.charAt(0).toUpperCase() + m.slice(1)}</option>)}
               </select>
             </div>
             <div>
-              <label className="form-label">Facilitator *</label>
-              <input className={`form-input ${errors.facilitator ? 'error' : ''}`} value={form.facilitator} onChange={e => set('facilitator', e.target.value)} placeholder="Dr. Name (Institution)" />
-              {errors.facilitator && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.facilitator}</span>}
+              <label style={darkLabel}>Facilitator *</label>
+              <input className={`form-input ${errors.facilitator ? 'error' : ''}`} style={darkInput}
+                value={form.facilitator} onChange={e => set('facilitator', e.target.value)} placeholder="Dr. Name (Institution)" />
+              {errors.facilitator && <span style={darkError}>{errors.facilitator}</span>}
             </div>
             <div>
-              <label className="form-label">Venue *</label>
-              <input className={`form-input ${errors.venue ? 'error' : ''}`} value={form.venue} onChange={e => set('venue', e.target.value)} placeholder="Seminar Hall A" />
-              {errors.venue && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.venue}</span>}
+              <label style={darkLabel}>Venue *</label>
+              <input className={`form-input ${errors.venue ? 'error' : ''}`} style={darkInput}
+                value={form.venue} onChange={e => set('venue', e.target.value)} placeholder="Seminar Hall A" />
+              {errors.venue && <span style={darkError}>{errors.venue}</span>}
             </div>
             <div>
-              <label className="form-label">Start Date *</label>
-              <input type="date" className={`form-input ${errors.start_date ? 'error' : ''}`} value={form.start_date} onChange={e => set('start_date', e.target.value)} />
+              <label style={darkLabel}>Start Date *</label>
+              <input type="date" className={`form-input ${errors.start_date ? 'error' : ''}`} style={darkInput}
+                value={form.start_date} onChange={e => set('start_date', e.target.value)} />
+              {errors.start_date && <span style={darkError}>{errors.start_date}</span>}
             </div>
             <div>
-              <label className="form-label">End Date</label>
-              <input type="date" className="form-input" value={form.end_date} onChange={e => set('end_date', e.target.value)} />
+              <label style={darkLabel}>End Date</label>
+              <input type="date" className="form-input" style={darkInput}
+                value={form.end_date} onChange={e => set('end_date', e.target.value)} />
             </div>
             <div>
-              <label className="form-label">Start Time</label>
-              <input type="time" className="form-input" value={form.start_time} onChange={e => set('start_time', e.target.value)} />
+              <label style={darkLabel}>Start Time</label>
+              <input type="time" className="form-input" style={darkInput}
+                value={form.start_time} onChange={e => set('start_time', e.target.value)} />
             </div>
             <div>
-              <label className="form-label">End Time</label>
-              <input type="time" className="form-input" value={form.end_time} onChange={e => set('end_time', e.target.value)} />
+              <label style={darkLabel}>End Time</label>
+              <input type="time" className="form-input" style={darkInput}
+                value={form.end_time} onChange={e => set('end_time', e.target.value)} />
             </div>
             <div>
-              <label className="form-label">Max Participants</label>
-              <input type="number" min="1" className="form-input" value={form.max_participants} onChange={e => set('max_participants', e.target.value)} />
+              <label style={darkLabel}>Max Participants</label>
+              <input type="number" min="1" className="form-input" style={darkInput}
+                value={form.max_participants} onChange={e => set('max_participants', e.target.value)} />
             </div>
             <div>
-              <label className="form-label">Registration Deadline *</label>
-              <input type="date" className={`form-input ${errors.registration_deadline ? 'error' : ''}`} value={form.registration_deadline} onChange={e => set('registration_deadline', e.target.value)} />
+              <label style={darkLabel}>Registration Deadline *</label>
+              <input type="date" className={`form-input ${errors.registration_deadline ? 'error' : ''}`} style={darkInput}
+                value={form.registration_deadline} onChange={e => set('registration_deadline', e.target.value)} />
+              {errors.registration_deadline && <span style={darkError}>{errors.registration_deadline}</span>}
             </div>
             <div>
-              <label className="form-label">Points Awarded</label>
-              <input type="number" min="0" className="form-input" value={form.points_awarded} onChange={e => set('points_awarded', e.target.value)} />
+              <label style={darkLabel}>Points Awarded</label>
+              <input type="number" min="0" className="form-input" style={darkInput}
+                value={form.points_awarded} onChange={e => set('points_awarded', e.target.value)} />
             </div>
             <div>
-              <label className="form-label">Certificate Provided</label>
-              <select className="form-input" value={form.certificate_provided ? 'yes' : 'no'} onChange={e => set('certificate_provided', e.target.value === 'yes')}>
+              <label style={darkLabel}>Certificate Provided</label>
+              <select className="form-input" style={darkInput}
+                value={form.certificate_provided ? 'yes' : 'no'}
+                onChange={e => set('certificate_provided', e.target.value === 'yes')}>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
               </select>
             </div>
             <div style={{ gridColumn: '1 / -1' }}>
-              <label className="form-label">Description *</label>
-              <textarea className={`form-input form-textarea ${errors.description ? 'error' : ''}`} value={form.description} onChange={e => set('description', e.target.value)} placeholder="Detailed workshop description..." rows={3} />
-              {errors.description && <span style={{ fontSize: 12, color: 'var(--error-600)' }}>{errors.description}</span>}
+              <label style={darkLabel}>Description *</label>
+              <textarea className={`form-input form-textarea ${errors.description ? 'error' : ''}`} style={darkInput}
+                value={form.description} onChange={e => set('description', e.target.value)}
+                placeholder="Detailed workshop description..." rows={3} />
+              {errors.description && <span style={darkError}>{errors.description}</span>}
             </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, paddingTop: 8, borderTop: '1px solid var(--neutral-100)' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
             <button type="button" className="btn btn-ghost" onClick={createModal.close}>Cancel</button>
             <button type="submit" className="btn btn-primary" disabled={submitting}>
               {submitting ? 'Saving...' : editId ? 'Update Workshop' : 'Create Workshop'}
@@ -231,8 +268,9 @@ export default function AdminWorkshops() {
 
       <Modal isOpen={deleteModal.isOpen} onClose={deleteModal.close} title="Delete Workshop" size="sm">
         <div style={{ textAlign: 'center', padding: '8px 0' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🗑️</div>
-          <p style={{ color: 'var(--neutral-600)', marginBottom: 24 }}>Delete <strong>{deleteModal.data?.title}</strong>?</p>
+          <p style={{ color: 'rgba(255,255,255,0.5)', marginBottom: 24, fontSize: 15, lineHeight: 1.6 }}>
+            Delete <strong style={{ color: '#e2e8f0' }}>{deleteModal.data?.title}</strong>?
+          </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
             <button className="btn btn-ghost" onClick={deleteModal.close}>Cancel</button>
             <button className="btn btn-danger" onClick={handleDelete}>Delete</button>

@@ -4,7 +4,7 @@ import styles from './Header.module.css';
 
 export default function Header({ onMenuToggle, title, subtitle }) {
   const { user } = useAuth();
-
+  console.log("Current user:", user);
   const getGreeting = () => {
     const h = new Date().getHours();
     if (h < 12) return 'Good morning';
@@ -26,8 +26,8 @@ export default function Header({ onMenuToggle, title, subtitle }) {
             </>
           ) : (
             <>
-              <p className={styles.greeting}>{getGreeting()},</p>
-              <h1 className={styles.userName}>{user?.name?.split(' ')[0]} 👋</h1>
+              <p className={styles.greeting}>{getGreeting()}</p>
+              <h1 className={styles.userName}>{user?.name?.replace(/^Dr\.\s*/i, '').split(' ')[0]}</h1>
             </>
           )}
         </div>
