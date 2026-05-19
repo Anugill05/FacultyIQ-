@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
     private function seedAdmin(): void
     {
         User::create([
-            'name' => 'Dr. Rajesh Kumar',
+            'name' => 'Rajesh Kumar',
             'email' => 'admin@lpu.in',
             'password' => Hash::make('Admin@123'),
             'role' => 'admin',
@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
     {
         $teachers = [
             [
-                'name' => 'Dr. Priya Sharma',
+                'name' => 'Priya Sharma',
                 'email' => 'priya.sharma@lpu.in',
                 'department' => 'Computer Science',
                 'designation' => 'Assistant Professor',
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => '9876543211',
             ],
             [
-                'name' => 'Prof. Amit Verma',
+                'name' => 'Amit Verma',
                 'email' => 'amit.verma@lpu.in',
                 'department' => 'Computer Science',
                 'designation' => 'Associate Professor',
@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => '9876543212',
             ],
             [
-                'name' => 'Dr. Sunita Patel',
+                'name' => 'Sunita Patel',
                 'email' => 'sunita.patel@lpu.in',
                 'department' => 'Mathematics',
                 'designation' => 'Professor',
@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => '9876543213',
             ],
             [
-                'name' => 'Dr. Ravi Gupta',
+                'name' => 'Ravi Gupta',
                 'email' => 'ravi.gupta@lpu.in',
                 'department' => 'Electronics',
                 'designation' => 'Assistant Professor',
@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => '9876543214',
             ],
             [
-                'name' => 'Prof. Meena Joshi',
+                'name' => 'Meena Joshi',
                 'email' => 'meena.joshi@lpu.in',
                 'department' => 'Management',
                 'designation' => 'Professor',
@@ -112,7 +112,7 @@ class DatabaseSeeder extends Seeder
                 'phone' => '9876543215',
             ],
             [
-                'name' => 'Dr. Kiran Bhatnagar',
+                'name' => 'Kiran Bhatnagar',
                 'email' => 'kiran.bhatnagar@lpu.in',
                 'department' => 'Physics',
                 'designation' => 'Associate Professor',
