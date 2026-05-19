@@ -10,7 +10,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
         "league/flysystem-local": "^3.0",
-        "mongodb/laravel-mongodb": "^4.1",
+        "mongodb/laravel-mongodb": "^5.7",
         "symfony/mailer": "^7.0",
         "tymon/jwt-auth": "^2.1"
     },
