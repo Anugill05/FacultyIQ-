@@ -44,8 +44,31 @@ export const AuthProvider = ({ children }) => {
 
   const login = useCallback(async (email, password) => {
     const res = await authAPI.login({ email, password });
+    console.log("LOGIN RESPONSE:", res.data);
     if (res.data.success) {
-      const { token: newToken, user: newUser } = res.data;
+      const newToken =
+    res.data.token ||
+    res.data.data?.token;
+
+const newUser =
+    res.data.user ||
+    res.data.data?.user;
+
+console.log(newToken);
+console.log(newUser);
+
+localStorage.setItem(
+   'facultyup_token',
+   newToken
+);
+
+localStorage.setItem(
+   'facultyup_user',
+   JSON.stringify(newUser)
+);
+
+setToken(newToken);
+setUser(newUser);
       localStorage.setItem('facultyup_token', newToken);
       localStorage.setItem('facultyup_user', JSON.stringify(newUser));
       setToken(newToken);

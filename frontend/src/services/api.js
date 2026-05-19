@@ -32,10 +32,14 @@ api.interceptors.response.use(
       const { status, data } = error.response;
 
       if (status === 401) {
-        localStorage.removeItem('facultyup_token');
-        localStorage.removeItem('facultyup_user');
-        window.location.href = '/login';
-        toast.error('Session expired. Please login again.');
+          localStorage.removeItem('facultyup_token');
+          localStorage.removeItem('facultyup_user');
+
+          toast.error('Session expired. Please login again.');
+
+          setTimeout(() => {
+              window.location.href = '/login';
+          }, 2000); // wait 2 sec
       } else if (status === 403) {
         toast.error(data?.message || 'Access denied');
       } else if (status === 422) {
