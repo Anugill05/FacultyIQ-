@@ -10,8 +10,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN docker-php-ext-install zip
 
-# Install MongoDB extension
-RUN pecl install mongodb \
+RUN pecl install mongodb-1.21.0 \
     && docker-php-ext-enable mongodb
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
