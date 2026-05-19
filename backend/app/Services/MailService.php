@@ -9,8 +9,8 @@ class MailService
 {
     public function sendOtpEmail(string $email, string $name, string $otp): void
     {
-        $appName = config('app.name', 'FacultyUp');
-        $expiry = config('app.otp_expiry', 10);
+         $appName = env('APP_NAME', 'FacultyUp');
+         $expiry = env('OTP_EXPIRY', 10);
 
         Mail::send([], [], function (Message $message) use ($email, $name, $otp, $appName, $expiry) {
             $message->to($email, $name)
@@ -21,8 +21,8 @@ class MailService
 
     public function sendPasswordResetEmail(string $email, string $name, string $otp): void
     {
-        $appName = config('app.name', 'FacultyUp');
-        $expiry = config('app.otp_expiry', 10);
+        $appName = env('APP_NAME', 'FacultyUp');
+        $expiry = env('OTP_EXPIRY', 10);
 
         Mail::send([], [], function (Message $message) use ($email, $name, $otp, $appName, $expiry) {
             $message->to($email, $name)
@@ -33,7 +33,7 @@ class MailService
 
     public function sendWelcomeEmail(string $email, string $name, string $password): void
     {
-        $appName = config('app.name', 'FacultyUp');
+        $appName = env('APP_NAME', 'FacultyUp');
 
         Mail::send([], [], function (Message $message) use ($email, $name, $password, $appName) {
             $message->to($email, $name)
@@ -105,7 +105,7 @@ HTML;
 
     private function buildWelcomeEmailHtml(string $name, string $email, string $password, string $appName): string
     {
-        $loginUrl = config('app.frontend_url', 'http://localhost:3000') . '/login';
+        $loginUrl = env('FRONTEND_URL', 'http://localhost:3000') . '/login';
         return <<<HTML
 <!DOCTYPE html>
 <html>

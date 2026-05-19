@@ -106,7 +106,7 @@ export default function AdminAchievements() {
                       <span>🏆 {a.points} points</span>
                       {a.certificate_url && (
                         <a
-                          href={`http://localhost:8000/storage/${a.certificate_url}`}
+                          href={`${process.env.REACT_APP_BASE_URL}/storage/${a.certificate_url}`}
                           target="_blank"
                           rel="noreferrer"
                           className={styles.certLink}

@@ -21,7 +21,7 @@ export default function TeacherWorkshops() {
   useEffect(() => {
     Promise.all([
       teacherAPI.getMyWorkshops(),
-      fetch('http://localhost:8000/api/v1/workshops', {
+      fetch(`${process.env.REACT_APP_API_URL}/workshops`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('facultyup_token')}` },
       })
         .then(r => r.json())

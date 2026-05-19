@@ -13,7 +13,7 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        env('FRONTEND_URL', 'http://localhost:3000'),
+        env('FRONTEND_URL', 'https://facultyup1-frontend.onrender.com'),
     ],
 
     'allowed_origins_patterns' => [],
