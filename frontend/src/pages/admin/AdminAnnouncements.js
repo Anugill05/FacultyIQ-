@@ -71,13 +71,26 @@ export default function AdminAnnouncements() {
   };
 
   const handleDelete = async () => {
-    try {
-      await adminAPI.deleteAnnouncement(deleteModal.data.id);
-      toast.success('Announcement deleted');
-      deleteModal.close();
-      fetchAnnouncements();
-    } catch { toast.error('Failed to delete'); }
-  };
+  try {
+    console.log("Deleting:", deleteModal.data);
+
+    await adminAPI.deleteAnnouncement(
+      deleteModal.data.id || deleteModal.data._id
+    );
+
+    toast.success('Announcement deleted');
+    deleteModal.close();
+    fetchAnnouncements();
+
+  } catch (err) {
+    console.error("DELETE ERROR:", err.response?.data || err);
+
+    toast.error(
+      err.response?.data?.message ||
+      "Failed to delete announcement"
+    );
+  }
+};
 
   return (
     <DashboardLayout title="Announcements" subtitle="Post updates and notices to faculty and students">

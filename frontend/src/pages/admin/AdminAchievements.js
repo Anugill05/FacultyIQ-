@@ -6,37 +6,64 @@ import { formatDate, achievementCategories } from '../../utils/helpers';
 import toast from 'react-hot-toast';
 import styles from './AdminAchievements.module.css';
 
+// FIX: resolve whichever ID field the backend actually returns
+const getId = (a) => a.id ?? a._id ?? a.achievement_id ?? null;
+
 export default function AdminAchievements() {
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [verifying, setVerifying] = useState(null);
+  const [verifying, setVerifying] = useState(null); // stores the resolved ID, never undefined
 
   const fetchPending = useCallback(() => {
     setLoading(true);
     adminAPI.getPendingAchievements()
-      .then(res => setAchievements(res.data.data || []))
+      .then(res => {
+        const list = res.data.data || [];
+
+        // TEMP DEBUG — remove once verified working
+        if (list.length > 0) {
+          console.log('[AdminAchievements] First achievement keys:', Object.keys(list[0]));
+          console.log('[AdminAchievements] First achievement:', list[0]);
+        }
+
+        setAchievements(list);
+      })
       .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => { fetchPending(); }, [fetchPending]);
 
-  const handleVerify = async (id) => {
-    setVerifying(id);
+  const handleVerify = async (achievementId) => {
+    // FIX: guard — bail immediately if ID is missing instead of calling the API with undefined
+    if (achievementId === undefined || achievementId === null) {
+      console.error('[AdminAchievements] handleVerify called with invalid id:', achievementId);
+      toast.error('Invalid achievement ID. Please refresh and try again.');
+      return;
+    }
+
+    setVerifying(achievementId);
     try {
-      await adminAPI.verifyAchievement(id);
+      await adminAPI.verifyAchievement(achievementId);
       toast.success('Achievement verified!');
-      setAchievements(prev => prev.filter(a => a.id !== id));
-    } catch { toast.error('Verification failed'); }
-    finally { setVerifying(null); }
+      // FIX: filter by resolved ID, not a.id, so removal always works
+      setAchievements(prev => prev.filter(a => getId(a) !== achievementId));
+    } catch (err) {
+      const msg = err?.response?.data?.message || 'Verification failed';
+      const status = err?.response?.status;
+      console.error(`[AdminAchievements] Verify error ${status}:`, err?.response?.data);
+      toast.error(msg);
+    } finally {
+      setVerifying(null);
+    }
   };
 
   const categoryColors = {
-    publication: { bg: '#dbeafe', color: '#1e40af', icon: '📄' },
-    award: { bg: '#fef3c7', color: '#92400e', icon: '🏆' },
+    publication:   { bg: '#dbeafe', color: '#1e40af', icon: '📄' },
+    award:         { bg: '#fef3c7', color: '#92400e', icon: '🏆' },
     certification: { bg: '#dcfce7', color: '#166534', icon: '📜' },
-    conference: { bg: '#ede9fe', color: '#5b21b6', icon: '🎙️' },
-    patent: { bg: '#ffedd5', color: '#9a3412', icon: '💡' },
-    project: { bg: '#f0fdf4', color: '#14532d', icon: '🔬' },
+    conference:    { bg: '#ede9fe', color: '#5b21b6', icon: '🎙️' },
+    patent:        { bg: '#ffedd5', color: '#9a3412', icon: '💡' },
+    project:       { bg: '#f0fdf4', color: '#14532d', icon: '🔬' },
   };
 
   return (
@@ -54,9 +81,14 @@ export default function AdminAchievements() {
         ) : (
           <div className={styles.achievementsList}>
             {achievements.map((a, i) => {
+              // FIX: resolve ID once per card — never use a.id directly after this
+              const achievementId = getId(a);
               const cat = categoryColors[a.category] || { bg: '#f1f5f9', color: '#475569', icon: '🎖' };
+              // FIX: compare against resolved achievementId, not a.id
+              const isVerifying = verifying === achievementId;
+
               return (
-                <div key={a.id} className={styles.achievementCard} style={{ animationDelay: `${i * 0.06}s` }}>
+                <div key={achievementId ?? i} className={styles.achievementCard} style={{ animationDelay: `${i * 0.06}s` }}>
                   <div className={styles.catIcon} style={{ background: cat.bg, color: cat.color }}>
                     {cat.icon}
                   </div>
@@ -73,8 +105,12 @@ export default function AdminAchievements() {
                       <span>📅 {formatDate(a.date_achieved)}</span>
                       <span>🏆 {a.points} points</span>
                       {a.certificate_url && (
-                        <a href={`http://localhost:8000/storage/${a.certificate_url}`}
-                          target="_blank" rel="noreferrer" className={styles.certLink}>
+                        <a
+                          href={`http://localhost:8000/storage/${a.certificate_url}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.certLink}
+                        >
                           📎 View Certificate
                         </a>
                       )}
@@ -90,10 +126,11 @@ export default function AdminAchievements() {
                   <div className={styles.achievementActions}>
                     <button
                       className={styles.verifyBtn}
-                      onClick={() => handleVerify(a.id)}
-                      disabled={verifying === a.id}
+                      // FIX: pass resolved achievementId, not a.id inline
+                      onClick={() => handleVerify(achievementId)}
+                      disabled={isVerifying || verifying !== null}
                     >
-                      {verifying === a.id ? '⟳ Verifying...' : '✓ Verify'}
+                      {isVerifying ? '⟳ Verifying...' : '✓ Verify'}
                     </button>
                   </div>
                 </div>

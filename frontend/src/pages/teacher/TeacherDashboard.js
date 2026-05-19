@@ -40,6 +40,7 @@ export default function TeacherDashboard() {
   ] : [];
 
   const badgeInfo = getBadgeInfo(ps?.badge);
+  console.log(user);
 
   return (
     <DashboardLayout>
@@ -48,9 +49,7 @@ export default function TeacherDashboard() {
         {/* Welcome Card */}
         <div className={styles.welcomeCard}>
           <div className={styles.welcomeLeft}>
-            <h2 className={styles.welcomeTitle}>
-              Welcome back, {user?.name?.split(' ')[0]}
-            </h2>
+            <h2 className={styles.welcomeTitle}>Welcome back, {user?.name?.replace('Dr. ', '').split(' ')[0]}</h2>
             <p className={styles.welcomeSub}>
               Track your performance, collect feedback, and grow professionally.
             </p>

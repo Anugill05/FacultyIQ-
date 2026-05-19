@@ -105,13 +105,22 @@ export default function AdminWorkshops() {
   };
 
   const handleDelete = async () => {
-    try {
-      await adminAPI.deleteWorkshop(deleteModal.data.id);
-      toast.success('Workshop deleted');
-      deleteModal.close();
-      fetchWorkshops();
-    } catch { toast.error('Failed to delete'); }
-  };
+  console.log("Deleting:", deleteModal.data);
+
+  try {
+    await adminAPI.deleteWorkshop(
+        deleteModal.data.id || deleteModal.data._id
+    );
+
+    toast.success('Workshop deleted');
+    deleteModal.close();
+    fetchWorkshops();
+
+  } catch(err){
+    console.log(err.response);
+    toast.error('Failed to delete');
+  }
+};
 
   return (
     <DashboardLayout title="Workshops & Training" subtitle="Manage faculty development programs">

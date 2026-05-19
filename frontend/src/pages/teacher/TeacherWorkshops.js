@@ -8,6 +8,9 @@ import styles from './TeacherWorkshops.module.css';
 
 const modeColors = { online: 'primary', offline: 'success', hybrid: 'warning' };
 
+// Helper: pick whichever ID field the backend actually sends
+const getWorkshopId = (w) => w.id ?? w._id ?? w.workshop_id ?? w.workshopId ?? null;
+
 export default function TeacherWorkshops() {
   const [upcoming, setUpcoming] = useState([]);
   const [myWorkshops, setMyWorkshops] = useState([]);
@@ -24,16 +27,35 @@ export default function TeacherWorkshops() {
         .then(r => r.json())
         .catch(() => ({ data: { data: [] } })),
     ]).then(([myRes, allRes]) => {
-      setMyWorkshops(myRes.data.data || []);
-      setUpcoming((allRes.data?.data || []).filter(w => w.status === 'upcoming'));
+      const allWorkshops = allRes.data?.data || [];
+      const myData = myRes.data.data || [];
+
+      // ── TEMPORARY DEBUG LOG ── remove once IDs are confirmed working
+      if (allWorkshops.length > 0) {
+        console.log('[TeacherWorkshops] First workshop object keys:', Object.keys(allWorkshops[0]));
+        console.log('[TeacherWorkshops] First workshop object:', allWorkshops[0]);
+      }
+      if (myData.length > 0) {
+        console.log('[TeacherWorkshops] First myWorkshop object keys:', Object.keys(myData[0]));
+        console.log('[TeacherWorkshops] First myWorkshop object:', myData[0]);
+      }
+      // ── END DEBUG ──
+
+      setMyWorkshops(myData);
+      setUpcoming(allWorkshops.filter(w => w.status === 'upcoming'));
     }).finally(() => setLoading(false));
   }, []);
 
   const joinedIds = myWorkshops
-    .map(p => p.workshop_id || p.workshop?.id)
-    .filter(Boolean);
+    .map(p => p.workshop_id ?? p.workshop?.id ?? p.workshop?._id)
+    .filter(id => id !== undefined && id !== null);
 
   const handleJoin = async (workshopId) => {
+    if (workshopId === undefined || workshopId === null) {
+      toast.error('Invalid workshop. Please refresh and try again.');
+      return;
+    }
+
     setJoining(workshopId);
     try {
       await teacherAPI.joinWorkshop(workshopId);
@@ -100,11 +122,13 @@ export default function TeacherWorkshops() {
           ) : (
             <div className={styles.workshopsGrid}>
               {upcoming.map((w, i) => {
-                const isJoined = joinedIds.includes(w.id);
-                const isFull   = w.current_participants >= w.max_participants;
+                const workshopId = getWorkshopId(w);
+                const isJoined   = workshopId != null && joinedIds.includes(workshopId);
+                const isFull     = w.current_participants >= w.max_participants;
+
                 return (
                   <div
-                    key={w.id}
+                    key={workshopId ?? i}
                     className={styles.workshopCard}
                     style={{ animationDelay: `${i * 0.05}s` }}
                   >
@@ -147,10 +171,10 @@ export default function TeacherWorkshops() {
                       )}
                       <button
                         className={`${styles.joinBtn} ${isJoined ? styles.joinedBtn : ''}`}
-                        onClick={() => !isJoined && !isFull && handleJoin(w.id)}
-                        disabled={isJoined || isFull || joining === w.id}
+                        onClick={() => !isJoined && !isFull && handleJoin(workshopId)}
+                        disabled={isJoined || isFull || joining === workshopId}
                       >
-                        {joining === w.id
+                        {joining === workshopId
                           ? 'Joining...'
                           : isJoined
                           ? 'Registered'

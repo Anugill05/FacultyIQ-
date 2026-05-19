@@ -5,6 +5,11 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 .page {
   display: flex;
   flex-direction: column;
@@ -157,10 +162,7 @@
   transition: color 0.2s ease;
 }
 
-.certLink:hover {
-  color: #a5b4fc;
-  text-decoration: underline;
-}
+.certLink:hover { color: #a5b4fc; text-decoration: underline; }
 
 .teacherInfo {
   display: flex;
@@ -192,36 +194,63 @@
   gap: 8px;
 }
 
-.verifyBtn {
+/* ── Verify button — 3 distinct states ──────────────────────────────────── */
+
+/* Shared base */
+.verifyBtn,
+.verifyBtnActive,
+.verifyBtnDimmed {
   padding: 9px 22px;
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  color: white;
   border: none;
   border-radius: 9px;
   font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
   font-family: 'DM Sans', sans-serif;
-  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   white-space: nowrap;
-  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
   letter-spacing: 0.01em;
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.verifyBtn:hover:not(:disabled) {
+/* IDLE — full green gradient, hoverable, only this state reacts to hover */
+.verifyBtn {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
+}
+
+.verifyBtn:hover {
   opacity: 0.9;
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(34, 197, 94, 0.45);
 }
 
-.verifyBtn:disabled {
-  opacity: 0.55;
+/* ACTIVE — indigo pulsing, only on the card being verified right now */
+.verifyBtnActive {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
   cursor: not-allowed;
-  transform: none;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  opacity: 1;
+  /* no hover rules — cursor:not-allowed makes intent clear */
 }
 
+/* DIMMED — all other buttons while one verify is in-flight.
+   pointer-events:none kills hover at the CSS level — no JS needed. */
+.verifyBtnDimmed {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.2);
+  cursor: default;
+  box-shadow: none;
+  opacity: 1;        /* intentionally full opacity so it looks "just inactive" not broken */
+  pointer-events: none;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .achievementCard { flex-direction: column; }
   .achievementActions { width: 100%; }
-  .verifyBtn { width: 100%; text-align: center; }
+  .verifyBtn,
+  .verifyBtnActive,
+  .verifyBtnDimmed { width: 100%; text-align: center; }
 }
