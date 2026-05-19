@@ -13,7 +13,15 @@ use App\Http\Controllers\Api\StudentController;
 */
 
 Route::prefix('v1')->group(function () {
-
+    Route::get('/health', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'FacultyUp API is running',
+        'status' => 'OK',
+        'timestamp' => now(),
+        'environment' => app()->environment()
+    ], 200);
+});
     // ======================== PUBLIC AUTH ROUTES ========================
     Route::prefix('auth')->group(function () {
         Route::post('/register', [AuthController::class, 'registerSendOtp']);
