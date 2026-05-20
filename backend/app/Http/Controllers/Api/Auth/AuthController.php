@@ -57,8 +57,17 @@ class AuthController extends Controller
         ]);
 
         // Generate and send OTP
-        $otp = $this->otpService->generateOtp($user);
-        $this->mailService->sendOtpEmail($user->email, $user->name, $otp);
+        try {
+            $otp = $this->otpService->generateOtp($user);
+            $this->mailService->sendOtpEmail($user->email, $user->name, $otp);
+            } catch (\Exception $e) {
+                $user->delete(); // rollback user creation
+                return response()->json([
+                'success' => false,
+                'message' => 'Failed to send OTP email. Please try again.',
+                'debug' => config('app.debug') ? $e->getMessage() : null,
+                ], 500);
+            }
 
         return response()->json([
             'success' => true,
