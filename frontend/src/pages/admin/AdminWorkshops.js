@@ -67,6 +67,7 @@ export default function AdminWorkshops() {
     if (!form.description.trim()) e.description = 'Required';
     if (!form.facilitator.trim()) e.facilitator = 'Required';
     if (!form.start_date) e.start_date = 'Required';
+    if (!form.end_date)e.end_date = 'Required';
     if (!form.venue.trim()) e.venue = 'Required';
     if (!form.registration_deadline) e.registration_deadline = 'Required';
     setErrors(e);
@@ -98,7 +99,7 @@ export default function AdminWorkshops() {
   };
 
   const handleEdit = (w) => {
-    setEditId(w.id);
+    setEditId(w._id || w.id);
     setForm({ ...initialForm, ...w, start_date: w.start_date?.split('T')[0] || '', end_date: w.end_date?.split('T')[0] || '', registration_deadline: w.registration_deadline?.split('T')[0] || '' });
     setErrors({});
     createModal.open();
@@ -144,7 +145,7 @@ export default function AdminWorkshops() {
         ) : (
           <div className={styles.workshopsGrid}>
             {workshops.map((w, i) => (
-              <div key={w.id} className={styles.workshopCard} style={{ animationDelay: `${i * 0.05}s` }}>
+              <div key={w._id || w.id} className={styles.workshopCard} style={{ animationDelay: `${i * 0.05}s` }}>
                 <div className={styles.workshopCardTop}>
                   <div className={styles.workshopMeta}>
                     <Badge variant={statusColors[w.status] || 'neutral'}>{w.status}</Badge>

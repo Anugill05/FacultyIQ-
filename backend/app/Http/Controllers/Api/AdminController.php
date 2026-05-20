@@ -256,14 +256,24 @@ class AdminController extends Controller
         return response()->json(['success' => true, 'message' => 'Workshop created', 'data' => $workshop], 201);
     }
 
-    public function getWorkshops(Request $request)
-    {
-        $query = Workshop::with('createdBy:id,name');
-        if ($request->status) $query->where('status', $request->status);
-        if ($request->category) $query->where('category', $request->category);
+    public function getWorkshops(Request $request){
+    $query = Workshop::with('createdBy');
+    if ($request->status) {
+        $query->where('status', $request->status);
+        }
 
-        $workshops = $query->orderByDesc('start_date')->paginate($request->per_page ?? 12);
-        return response()->json(['success' => true, 'data' => $workshops]);
+    if ($request->category) {
+        $query->where('category', $request->category);
+    }
+
+    $workshops = $query
+        ->orderByDesc('start_date')
+        ->paginate($request->per_page ?? 12);
+
+    return response()->json([
+        'success' => true,
+        'data' => $workshops
+        ]);
     }
 
     public function updateWorkshop(Request $request, string $id)
