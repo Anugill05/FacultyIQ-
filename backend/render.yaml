@@ -4,9 +4,9 @@ services:
     runtime: php
     rootDir: backend
 
-    buildCommand: |
-      composer install --no-dev
-      php artisan config:cache
+    buildCommand: composer install --no-dev
 
     startCommand: |
+      php artisan config:clear
+      php artisan cache:clear
       php artisan serve --host=0.0.0.0 --port=$PORT
