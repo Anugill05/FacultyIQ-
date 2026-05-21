@@ -9,7 +9,7 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 
-  timeout: 60000,
+  timeout: 120000,
 });
 
 // Request interceptor — attach JWT token
@@ -49,8 +49,8 @@ api.interceptors.response.use(
         toast.error('Server error. Please try again later.');
       }
     } else if (error.code === 'ECONNABORTED') {
-      toast.error('Request timeout. Check your connection.');
-    }
+      toast.error('Server is waking up, please try again in 30 seconds.'); // ← change this line
+      }
 
     return Promise.reject(error);
   }

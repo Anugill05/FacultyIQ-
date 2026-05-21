@@ -25,56 +25,96 @@ class AuthController extends Controller
     /**
      * Student Registration - Send OTP
      */
+    
     public function registerSendOtp(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:2|max:100',
-            'email' => 'required|email|unique:mongodb.users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'student_id' => 'required|string|unique:mongodb.users,student_id',
-            'department' => 'required|string',
-            'phone' => 'nullable|string|max:15',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'name'       => 'required|string|min:2|max:100',
+        'email'      => 'required|email',
+        'password'   => 'required|string|min:8|confirmed',
+        'student_id' => 'required|string',
+        'department' => 'required|string',
+        'phone'      => 'nullable|string|max:15',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
-        }
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Validation failed',
+            'errors'  => $validator->errors()
+        ], 422);
+    }
 
-        // Create unverified user
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'student',
+    // Check if already verified — block duplicate
+    $existingVerified = User::where('email', $request->email)
+                            ->where('is_active', true)
+                            ->first();
+    if ($existingVerified) {
+        return response()->json([
+            'success' => false,
+            'message' => 'This email is already registered. Please login.',
+            'errors'  => ['email' => ['Email already exists.']]
+        ], 422);
+    }
+
+    // Also block if student_id already used by a verified user
+    $existingStudentId = User::where('student_id', $request->student_id)
+                             ->where('is_active', true)
+                             ->first();
+    if ($existingStudentId) {
+        return response()->json([
+            'success' => false,
+            'message' => 'This Student ID is already registered.',
+            'errors'  => ['student_id' => ['Student ID already exists.']]
+        ], 422);
+    }
+
+    // Reuse or create unverified user
+    $user = User::where('email', $request->email)
+                ->where('is_active', false)
+                ->first();
+
+    if ($user) {
+        // Update existing unverified record
+        $user->update([
+            'name'       => $request->name,
+            'password'   => Hash::make($request->password),
             'student_id' => $request->student_id,
             'department' => $request->department,
-            'phone' => $request->phone,
-            'is_active' => false,
+            'phone'      => $request->phone,
         ]);
-
-        // Generate and send OTP
-        try {
-            $otp = $this->otpService->generateOtp($user);
-            $this->mailService->sendOtpEmail($user->email, $user->name, $otp);
-            } catch (\Exception $e) {
-                $user->delete(); // rollback user creation
-                return response()->json([
-                'success' => false,
-                'message' => 'Failed to send OTP email. Please try again.',
-                'debug' => config('app.debug') ? $e->getMessage() : null,
-                ], 500);
-            }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'OTP sent to your email. Please verify to complete registration.',
-            'user_id' => $user->id,
-        ], 201);
+    } else {
+        // Create fresh user
+        $user = User::create([
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'password'   => Hash::make($request->password),
+            'role'       => 'student',
+            'student_id' => $request->student_id,
+            'department' => $request->department,
+            'phone'      => $request->phone,
+            'is_active'  => false,
+        ]);
     }
+
+    // Send OTP with error visibility
+    try {
+        $otp = $this->otpService->generateOtp($user);
+        $this->mailService->sendOtpEmail($user->email, $user->name, $otp);
+    } catch (\Exception $e) {
+        \Log::error('OTP mail failed: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Account created but OTP email failed: ' . $e->getMessage(),
+        ], 500);
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'OTP sent to your email. Please verify to complete registration.',
+        'user_id' => $user->id,
+    ], 201);
+}
 
     /**
      * Verify OTP and activate account
