@@ -324,25 +324,28 @@ class AdminController extends Controller
             'message' => "Performance calculated for {$teachers->count()} teachers",
             'data' => PerformanceScore::where('academic_year', $request->academic_year)
                 ->where('semester', $request->semester)
-                ->with('teacher:id,name,department,designation,avatar')
+                ->with(['teacher' => fn($q) => $q->select('_id', 'name', 'department', 'designation', 'avatar')])
                 ->orderByDesc('overall_score')
                 ->get()
         ]);
     }
 
-    public function getPerformanceReports(Request $request)
-    {
-        $query = PerformanceScore::with('teacher:id,name,department,designation,avatar,employee_id');
+    // ✅ AFTER — safe MongoDB eager load
+public function getPerformanceReports(Request $request)
+{
+    $query = PerformanceScore::with(['teacher' => function ($q) {
+        $q->select('_id', 'name', 'department', 'designation', 'avatar', 'employee_id');
+    }]);
 
-        if ($request->academic_year) $query->where('academic_year', $request->academic_year);
-        if ($request->semester) $query->where('semester', $request->semester);
-        if ($request->department) {
-            $query->whereHas('teacher', fn($q) => $q->where('department', $request->department));
-        }
-
-        $scores = $query->orderByDesc('overall_score')->paginate($request->per_page ?? 15);
-        return response()->json(['success' => true, 'data' => $scores]);
+    if ($request->academic_year) $query->where('academic_year', $request->academic_year);
+    if ($request->semester) $query->where('semester', (int) $request->semester);
+    if ($request->department) {
+        $query->whereHas('teacher', fn($q) => $q->where('department', $request->department));
     }
+
+    $scores = $query->orderByDesc('overall_score')->paginate($request->per_page ?? 15);
+    return response()->json(['success' => true, 'data' => $scores]);
+}
 
     // ==================== ANNOUNCEMENTS ====================
 

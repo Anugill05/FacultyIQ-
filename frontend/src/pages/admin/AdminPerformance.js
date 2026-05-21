@@ -29,14 +29,23 @@ export default function AdminPerformance() {
 
   const fetchReports = useCallback(() => {
     setLoading(true);
-    adminAPI.getPerformanceReports({ ...filters, page, per_page: 10 })
-      .then(res => {
+    adminAPI.getPerformanceReports({ 
+        ...filters, 
+        semester: parseInt(filters.semester),
+        page, 
+        per_page: 10 
+    })
+    .then(res => {
         setScores(res.data.data.data || []);
         setTotalPages(res.data.data.last_page || 1);
         setTotal(res.data.data.total || 0);
-      })
-      .finally(() => setLoading(false));
-  }, [filters, page]);
+    })
+    .catch(err => {
+        console.error('Performance fetch error:', err?.response?.data);
+        toast.error('Failed to load performance reports');
+    })
+    .finally(() => setLoading(false));
+}, [filters, page]);
 
   useEffect(() => { fetchReports(); }, [fetchReports]);
 
