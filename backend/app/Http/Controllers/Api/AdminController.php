@@ -257,7 +257,7 @@ class AdminController extends Controller
     }
 
     public function getWorkshops(Request $request){
-    $query = Workshop::with('createdBy');
+    $query = Workshop::query();
     if ($request->status) {
         $query->where('status', $request->status);
         }

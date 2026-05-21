@@ -53,9 +53,16 @@ export default function AdminWorkshops() {
   const fetchWorkshops = useCallback(() => {
     setLoading(true);
     adminAPI.getWorkshops({ status: statusFilter })
-      .then(res => setWorkshops(res.data.data.data || []))
+      .then(res => {
+        const list = res.data?.data?.data ?? res.data?.data ?? [];
+        setWorkshops(list);
+      })
+      .catch(err => {
+        console.error('Workshop fetch error:', err?.response?.data);
+        toast.error('Failed to load workshops');
+      })
       .finally(() => setLoading(false));
-  }, [statusFilter]);
+}, [statusFilter]);
 
   useEffect(() => { fetchWorkshops(); }, [fetchWorkshops]);
 
